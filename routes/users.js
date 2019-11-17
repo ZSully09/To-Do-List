@@ -23,6 +23,13 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+  router.get('/register', (req, res) => {
+    if (req.session.userId) {
+      res.redirect('/');
+    } else {
+      res.render('register');
+    }
+  });
   router.post("/register", (req, res) => {
     const user = req.body;
     getUserByEmail(user.email, db)
@@ -35,6 +42,19 @@ module.exports = (db) => {
           });
         } else {
           res.send('Already registerd!');
+        }
+      });
+  });
+  router.post('/login', (req, res) => {
+    const user = req.body;
+    getUserByEmail(user.email, db)
+      .then(data => {
+        //check if user's email is not in db
+        if (!data.rows[0]) {
+          res.send('The email you entered does not belong to any account!');
+        } else {
+          req.session.userId = data.rows[0].id;
+          res.redirect('/');
         }
       });
   });
