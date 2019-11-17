@@ -6,7 +6,9 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
+const { addUser } = require('../database');
+const { getUserByEmail } = require('../database');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -19,6 +21,21 @@ module.exports = (db) => {
         res
           .status(500)
           .json({ error: err.message });
+      });
+  });
+  router.post("/register", (req, res) => {
+    const user = req.body;
+    getUserByEmail(user.email, db)
+      .then(data => {
+        //check if user's email is not in db
+        if (!data.rows[0]) {
+          addUser(user, db).then(data => {
+            req.session.userId = data.id;
+            res.redirect('/');
+          });
+        } else {
+          res.send('Already registerd!');
+        }
       });
   });
   return router;
