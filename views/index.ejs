@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home Page</title>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Smart To Do List</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -9,9 +15,22 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <!-- Bootstrap CSS for Buttons -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
   </head>
 
   <body>
-    <h1>Hello World!</h1>
+    <h1>Welcome to Smart To Do List</h1>
+    <div class='login-register'>
+    <form method="GET" action="/login">
+      <button type="submit" class="btn btn-dark">Login</button>
+      </form>
+    </br>
+    </br>
+      <form method="GET" action="/register">
+        <button type="submit" class="btn btn-dark">Register</button>
+        </form>
+    </div>
   </body>
 </html>

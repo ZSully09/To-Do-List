@@ -73,6 +73,8 @@ module.exports = (db) => {
 
     const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key='+ GAPI + 'cx=015636378830428160186:o52uathqmlb&q=' + name)
     .then(response => {
+      // product results are not giving very good responses...
+
       productData.name = response.items[0]['pagemap']['metatags'][0]['title']
       productData.image = response.items[0].pagemap.scraped[0].image_link
       productData.url = response.items[0].pagemap.metatags[0]['og:url']
@@ -94,7 +96,7 @@ module.exports = (db) => {
 
     Promise.all([yelpPromise, moviePromise, productPromise, bookPromise])
       .then(values =>{
-        console.log(compareResults(values))
+        console.log(help.compareResults(values, name))
         res.redirect('/')
       })
   });

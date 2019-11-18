@@ -19,13 +19,14 @@
       <div class="col-md-6 mx-auto text-center">
         <div class="header-title">
           <h1 class="wv-heading--title">
-            Log In
+            Create An Account
+          </h1>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 mx-auto">
           <div class="myform form ">
-            <form action="/api/users/login" method="post" name="login">
+            <form action="/api/users/register" method="post" name="register">
               <div class="form-group">
                 <input
                   type="email"
@@ -49,7 +50,7 @@
               </div>
               <div class="text-center ">
                 <button type="submit" class=" btn btn-block send-button tx-tfm">
-                  Log Into Your Account
+                  Create Your Free Account
                 </button>
               </div>
               <div class="col-md-12 ">
@@ -58,9 +59,8 @@
                 </div>
               </div>
               <div class="form-group">
-                <a class="btn btn-block g-button" href="/api/users/register">
-                  <i class="fa fa-google"></i> Don't have an account? Register
-                  here!
+                <a class="btn btn-block g-button" href="/">
+                  <i class="fa fa-google"></i> Already registered ?
                 </a>
               </div>
             </form>
