@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /*
  * All routes for Users are defined here
  * Since this file is loaded in server.js into api/users,
@@ -9,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 const { addUser } = require('../database');
 const { getUserByEmail } = require('../database');
+const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -49,14 +51,25 @@ module.exports = (db) => {
     const user = req.body;
     getUserByEmail(user.email, db)
       .then(data => {
+
         //check if user's email is not in db
         if (!data.rows[0]) {
           res.send('The email you entered does not belong to any account!');
         } else {
-          req.session.userId = data.rows[0].id;
-          res.redirect('/');
+          //check if user's password is correct
+          if (bcrypt.compareSync(user.password, data.rows[0].password)) {
+            req.session.userId = data.rows[0].id;
+            res.redirect('/');
+          } else {
+            res.send('Password is not correct!');
+          }
+
         }
       });
+  });
+  router.post('/logout', (req, res) => {
+    req.session = null;
+    res.redirect('/');
   });
   return router;
 };

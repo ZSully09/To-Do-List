@@ -59,7 +59,6 @@ app.use('/api/widgets', widgetsRoutes(db));
 // Separate them into separate routes files (see above).
 app.get('/', (req, res) => {
   //check if user has been registered or not
-  // console.log(req.session.userId);
   if (!req.session.userId) {
     res.render('login');
   } else {

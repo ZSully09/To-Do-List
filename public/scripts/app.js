@@ -1,3 +1,5 @@
+
+/*
 $(() => {
   $.ajax({
     method: "GET",
@@ -8,3 +10,42 @@ $(() => {
     }
   });;
 });
+*/
+
+
+const request = require('request');
+const yelp = require('yelp-fusion');
+const client = yelp.client(process.env.YELP_KEY);
+//
+
+
+module.exports = {
+  compareResults : function(array, searchTerm) {
+    let dbTitle = ""
+
+    const restaurant = array[0].name
+    const book = array[1].name
+    const product = array[2].name
+    const movie = array[3].name
+    if(restaurant === searchTerm) {
+      dbTitle = restaurant
+      return dbTitle
+    }
+    if(book === searchTerm) {
+      dbTitle = book
+      return dbTitle
+    }
+    if(product === searchTerm) {
+      dbTitle = product
+      return dbTitle
+    }
+    if(movie === searchTerm) {
+      dbTitle = movie
+      return dbTitle
+    }
+
+    dbTitle = movie;
+    return dbTitle
+  }
+
+}

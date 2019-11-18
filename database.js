@@ -1,4 +1,5 @@
 //database functions
+const bcrypt = require('bcrypt');
 
 const addUser = function(user, db) {
   return db
@@ -6,7 +7,7 @@ const addUser = function(user, db) {
       `
   INSERT INTO users(email,password) VALUES($1,$2) RETURNING *;
 `,
-      [`${user.email}`, `${user.password}`]
+      [`${user.email}`, `${bcrypt.hashSync(user.password, 10)}`]
     )
     .then(data => {
       if (data.rows.length) {
