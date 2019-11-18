@@ -8,3 +8,4 @@ CREATE TABLE users
   item_id INTEGER REFERENCES items(id) ON DELETE CASCADE,
   name VARCHAR(255) NOT NULL
 );
+-- added item id
