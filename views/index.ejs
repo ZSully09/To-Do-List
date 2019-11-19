@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <% include partials/_header.ejs %>
+    <% include partials/_header.ejs %>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <title>Smart To Do List</title>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Scada:400,400i,700,700i&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
@@ -16,21 +23,78 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <!-- Bootstrap CSS for Buttons -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
-    <h1>Welcome to Smart To Do List</h1>
-    <div class='login-register'>
-    <form method="GET" action="/login">
-      <button type="submit" class="btn btn-dark">Login</button>
-      </form>
-    </br>
-    </br>
-      <form method="GET" action="/register">
-        <button type="submit" class="btn btn-dark">Register</button>
-        </form>
-    </div>
+      <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search this blog">
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+    <main>
+      <div class="container movies">
+        <header class="header">
+          Movies
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <i class="fa fa-plus"></i>
+        </header>
+        <section class="card">
+          <div class="img-div">
+            <img
+              class="thumbnail rounded-circle"
+              src="https://news.newonnetflix.info/wp-content/uploads/2017/09/friends.jpg"
+              alt="friends"
+            />
+          </div>
+
+          <p class="name">Friends</p>
+        </section>
+      </div>
+      <div class="container books">
+        <header class="header">
+          Books
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <i class="fa fa-plus"></i>
+        </header>
+        <section class="card">
+            <div class="img-div">
+              <img
+                class="thumbnail rounded-circle"
+                src="https://ca.startrek.com/sites/default/files/images/2019-06/0765378388-thecalculatingstarsbymaryrobinettekowal-181105221846-thumbnail-4.jpg"
+                alt="The Calculating Stars"
+              />
+            </div>
+
+            <p class="name">The Calculating Stars</p>
+      </div>
+      <div class="container restaurants">
+        <header class="header">
+          Restaurants
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <i class="fa fa-plus"></i>
+        </header>
+        <div class="card"></div>
+      </div>
+      <div class="container products">
+        <header class="header">
+          Products
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <i class="fa fa-plus"></i>
+        </header>
+        <div class="card"></div>
+      </div>
+    </main>
   </body>
 </html>
+

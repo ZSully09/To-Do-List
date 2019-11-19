@@ -1,13 +1,30 @@
-<% if(userId) { %>
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-success">
-    <a class="navbar-brand" href="/">Smart To Do List</a>
-    <div>
-      <form method="POST" action="/logout">
-        Logged In As: <%= user.email %>!
-        <button type="submit" class="btn btn-outline-dark">Logout</button>
-      </form>
-    </div>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="/urls">Smart To Do List</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
+    <% if(userId) { %>
+    <form method="POST" action="/logout">
+      <label for="username" style="font-size: 20px;color: white"
+        >Logged in As: <%= user.email %></label
+      >
+      <input
+        type="submit"
+        name="login"
+        value="logout"
+        style="background:transparent;color:white;border-radius: 5px;border-color:white;font-size: 20px"
+      />
+    </form>
+    <% } %>
   </nav>
 </header>
-<% } %>
