@@ -1,3 +1,5 @@
--- INSERT INTO items (user_id, name) VALUES (1, 'Bahareh');
--- INSERT INTO items (user_id, name) VALUES (2, 'Eli');
--- INSERT INTO items (user_id, name) VALUES (3, 'Zach');
+INSERT INTO items (user_id, created_at)
+  VALUES
+    ('Bahareh'),
+    ('Eli'),
+    ('Zach')
