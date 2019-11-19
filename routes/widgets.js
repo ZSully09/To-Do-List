@@ -33,12 +33,11 @@ module.exports = (db) => {
       });
   });
   router.post("/add", (req, res) => {
-    let time = new Date();
     let movieData = {};
     let bookData = {};
     let productData = {};
     let yelpData = {};
-    // const name = req.body['api-search'];
+    const name = req.body['api-search'];
 
     // const moviePromise = help.apiRequest('http://www.omdbapi.com/?t=' + name + '&apikey=' + MAPI)
     //   .then(response => {
@@ -86,29 +85,33 @@ module.exports = (db) => {
     //   .catch(error => {
     //     res.send(error);
     //   });
-    // const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
-    //   .then(response => {
-    //     const data = JSON.parse(response.body);
-    //     yelpData.name = data.businesses[0].name;
-    //     yelpData.rating = data.businesses[0].rating;
-    //     yelpData.price = data.businesses[0].price;
-    //     yelpData.location = data.businesses[0].location.address1 + ', ' + data.businesses[0].location.city + ", " + data.businesses[0].location.state + ", " + data.businesses[0].location.zip_code;
-    //     return yelpData;
-    //   });
-    const name = 'Lugaro'
-    const yelpPromise = {
-      name: 'Lugaro',
-      rating: 3.5,
-      price: '$$$$',
-      street: '996 Park Royal S',
-      city: 'West Vancouver',
-      province: 'BC',
-      post_code: 'V7T 1A1',
-      image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
+    const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
+      .then(response => {
+        const data = JSON.parse(response.body);
+        yelpData.name = data.businesses[0].name;
+        yelpData.rating = data.businesses[0].rating;
+        yelpData.price = data.businesses[0].price;
+        yelpData.street = data.businesses[0].location.address1;
+        yelpData.city = data.businesses[0].location.city
+        yelpData.province = data.businesses[0].location.state
+        yelpData.post_code = data.businesses[0].location.zip_code;
+        yelpData.image = data.businesses[0].image_url
+        return yelpData;
+      });
+
+    // const yelpPromise = {
+    //   name: 'Lugaro',
+    //   rating: 3.5,
+    //   price: '$$$$',
+    //   street: '996 Park Royal S',
+    //   city: 'West Vancouver',
+    //   province: 'BC',
+    //   post_code: 'V7T 1A1',
+    //   image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
 
 
 
-    };
+    // };
     const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
       year: '2001',
       actors: 'Alan Howard, Noel Appleby, Sean Astin, Sala Baker',
