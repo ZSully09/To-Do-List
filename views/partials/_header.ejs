@@ -3,7 +3,7 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
     <a class="navbar-brand" href="/">Smart To Do List</a>
     <div>
-      <form method="POST" action="/logout">
+      <form method="GET" action="/api/users/logout">
         Logged In As: <%= user.email %>!
         <button type="submit" class="btn btn-outline-dark">Logout</button>
       </form>
