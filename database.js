@@ -63,6 +63,24 @@ const addMovie = function(values, db) {
   );
 };
 
+const addBook = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO movies (
+      item_id,
+      name,
+      director,
+      rating,
+      image,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, TRUE)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
 
 
 

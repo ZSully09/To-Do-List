@@ -143,34 +143,16 @@ module.exports = (db) => {
                     // if it is {}, then we want it to not insert anything into the table
                     addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster], db);
 
-                    // db.query(
-                    //   `
-                    //   INSERT INTO movies (
-                    //     item_id,
-                    //     name,
-                    //     director,
-                    //     rating,
-                    //     image,
-                    //     is_active
-                    //     )
-                    //     VALUES ($1, $2, $3, $4, $5, ${isCat})
-                    //   RETURNING *;
-                    //   `,
-                    //   [res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster]
-                    // )
                     isCat = false;
                   } else if (category === 'books' && values[3] !== {}) {
                     db.query(
                       `
             INSERT INTO books (
               item_id
-              name
               author
-              pages
-              image
-              publication_year
-              rating
               description
+              thumbnail
+              rating
               is_active
               )
               VALUES ($1, $2, $3, $4, $5, ${isCat})
