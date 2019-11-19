@@ -80,5 +80,50 @@ module.exports = db => {
     }
   });
 
+  router.get('/eat', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('eat', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/read', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('read', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/buy', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('buy', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
   return router;
 };
