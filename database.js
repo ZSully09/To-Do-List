@@ -54,9 +54,12 @@ const addMovie = function(values, db) {
       director,
       rating,
       image,
+      actors,
+      description,
+      duration,
       is_active
       )
-      VALUES ($1, $2, $3, $4, $5, TRUE)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *;
     `,
     values
@@ -66,15 +69,18 @@ const addMovie = function(values, db) {
 const addBook = function(values, db) {
   return db.query(
     `
-    INSERT INTO movies (
+    INSERT INTO books (
       item_id,
       name,
-      director,
-      rating,
+      author,
+      pages,
       image,
+      publication_year,
+      rating,
+      description,
       is_active
       )
-      VALUES ($1, $2, $3, $4, $5, TRUE)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *;
     `,
     values
@@ -90,5 +96,6 @@ module.exports = {
   getUserByEmail,
   getUserById,
   isDuplicateName,
-  addMovie
+  addMovie,
+  addBook
 };

@@ -11,7 +11,7 @@ const MAPI = process.env.MOVIE_KEY;
 const express = require('express');
 const router = express.Router();
 const help = require('../public/scripts/app');
-const { isDuplicateName, addMovie} = require('../database');
+const { isDuplicateName, addMovie, addBook} = require('../database');
 
 
 module.exports = (db) => {
@@ -101,7 +101,10 @@ module.exports = (db) => {
     };
     const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
       year: '2001',
+      actors: 'Alan Howard, Noel Appleby, Sean Astin, Sala Baker',
+      duration: '178 min',
       director: 'Peter Jackson',
+      description: 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.',
       poster: 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg',
       rating: '8.8',
       boxOffice: '$314,000,000' };
@@ -111,13 +114,15 @@ module.exports = (db) => {
     const bookPromise = { name: 'The Fellowship of the Ring',
       author: 'John Ronald Reuel Tolkien',
       description: 'Continuing the story begun in The Hobbit, this is the first part of Tolkien s epic masterpiece, The Lord of the Rings, featuring an exclusive cover image from the film, the definitive text, and a detailed map of Middle-earth. Sauron, the Dark Lord, has gathered to him all the Rings of Power the means by which he intends to rule Middle-earth. All he lacks in his plans for dominion is the One Ring the ring that rules them all which has fallen into the hands of the hobbit, Bilbo Baggins. In a sleepy village in the Shire, young Frodo Baggins finds himself faced with an immense task, as his elderly cousin Bilbo entrusts the Ring to his care. Frodo must leave his home and make a perilous journey across Middle-earth to the Cracks of Doom, there to destroy the Ring and foil the Dark Lord in his evil purpose. To celebrate the release of the first of Peter Jackson s two-part film adaptation of The Hobbit, THE HOBBIT: AN UNEXPECTED JOURNEY, this first part of The Lord of the Rings is available for a limited time with an exclusive cover image from Peter Jackson s award-winning trilogy."',
-      thumbnail: 'http://books.google.com/books/content?id=_FjrugAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api',
-      rating: 4 };
+      image: 'http://books.google.com/books/content?id=_FjrugAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api',
+      rating: 4,
+      publication_year: 2012,
+      pages: 531 };
 
     Promise.all([yelpPromise, moviePromise, productPromise, bookPromise])
     // promise all takes the promises created by the api requests and waits for them all to resolve
       .then(values => {
-        let isCat = true;
+
         // compares the results and returns the category that best fits the user input
         let category = help.compareResults(values, name);
 
@@ -136,30 +141,17 @@ module.exports = (db) => {
           `,
                 [req.session.userId]
               )
-                .then(res => {
-                  if (category === 'movies' && values[1] !== {}) {
+            .then(res => {
+              if (category === 'movies' && values[1] !== {}) {
                     // if the category is movies then insert the item and associated data in movies table
                     // note the empty object is only there because by default the category is set to movies
                     // if it is {}, then we want it to not insert anything into the table
-                    addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster], db);
+                addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
+                addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+              } else if (category === 'books' && values[3] !== {}) {
 
-                    isCat = false;
-                  } else if (category === 'books' && values[3] !== {}) {
-                    db.query(
-                      `
-            INSERT INTO books (
-              item_id
-              author
-              description
-              thumbnail
-              rating
-              is_active
-              )
-              VALUES ($1, $2, $3, $4, $5, ${isCat})
-            RETURNING *;
-            `,
-                      [res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster]
-                    );
+                    // addBook([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, 'TRUE'], db)
+
                   }
                 });
               console.log('yeet');
