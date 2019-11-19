@@ -11,7 +11,7 @@ const MAPI = process.env.MOVIE_KEY;
 const express = require('express');
 const router = express.Router();
 const help = require('../public/scripts/app');
-const { isDuplicateName, addMovie, addBook, addRestaurant} = require('../database');
+const { isDuplicateName, addMovie, addBook, addRestaurant, addProduct } = require('../database');
 
 
 module.exports = (db) => {
@@ -38,7 +38,8 @@ module.exports = (db) => {
     let bookData = {};
     let productData = {};
     let yelpData = {};
-    const name = req.body['api-search'];
+    // const name = req.body['api-search'];
+
     // const moviePromise = help.apiRequest('http://www.omdbapi.com/?t=' + name + '&apikey=' + MAPI)
     //   .then(response => {
 
@@ -94,6 +95,7 @@ module.exports = (db) => {
     //     yelpData.location = data.businesses[0].location.address1 + ', ' + data.businesses[0].location.city + ", " + data.businesses[0].location.state + ", " + data.businesses[0].location.zip_code;
     //     return yelpData;
     //   });
+    const name = 'Lugaro'
     const yelpPromise = {
       name: 'Lugaro',
       rating: 3.5,
@@ -116,9 +118,12 @@ module.exports = (db) => {
       poster: 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg',
       rating: '8.8',
       boxOffice: '$314,000,000' };
-    const productPromise = { name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
+    const productPromise = {
+      name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
       image: 'https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL.jpg',
-      url: 'http://www.amazon.ca/dp/0007581149/ref=tsm_1_fb_lk' };
+      link: 'http://www.amazon.ca/dp/0007581149/ref=tsm_1_fb_lk',
+      description: `Four-volume boxed-set edition of The Lord of the Rings in hardback, featuring \nTolkien's original unused dust-jacket designs, together with fourth hardback ...`
+    };
     const bookPromise = { name: 'The Fellowship of the Ring',
       author: 'John Ronald Reuel Tolkien',
       description: 'Continuing the story begun in The Hobbit, this is the first part of Tolkien s epic masterpiece, The Lord of the Rings, featuring an exclusive cover image from the film, the definitive text, and a detailed map of Middle-earth. Sauron, the Dark Lord, has gathered to him all the Rings of Power the means by which he intends to rule Middle-earth. All he lacks in his plans for dominion is the One Ring the ring that rules them all which has fallen into the hands of the hobbit, Bilbo Baggins. In a sleepy village in the Shire, young Frodo Baggins finds himself faced with an immense task, as his elderly cousin Bilbo entrusts the Ring to his care. Frodo must leave his home and make a perilous journey across Middle-earth to the Cracks of Doom, there to destroy the Ring and foil the Dark Lord in his evil purpose. To celebrate the release of the first of Peter Jackson s two-part film adaptation of The Hobbit, THE HOBBIT: AN UNEXPECTED JOURNEY, this first part of The Lord of the Rings is available for a limited time with an exclusive cover image from Peter Jackson s award-winning trilogy."',
@@ -157,12 +162,25 @@ module.exports = (db) => {
                 addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
                 addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
                 addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
               } else if (category === 'books' && values[3] !== {}) {
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, true], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
 
-                    // addBook([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, 'TRUE'], db)
-
-                  }
-                });
+              } else if (category === 'products' && values[2] !== {}) {
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, true], db)
+              } else if (category === 'restaurants' && values[0] !== {}) {
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, true], db)
+                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
+              }
+            });
               console.log('yeet');
               //  console.log(req.session.userId)
               res.redirect('/');

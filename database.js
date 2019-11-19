@@ -108,6 +108,23 @@ const addRestaurant = function(values, db) {
   );
 };
 
+const addProduct = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO products (
+    item_id,
+    name,
+    link,
+
+    image,
+    description,
+    is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6)
+  `,
+    values
+  );
+};
 
 
 
@@ -118,5 +135,6 @@ module.exports = {
   isDuplicateName,
   addMovie,
   addBook,
-  addRestaurant
+  addRestaurant,
+  addProduct
 };
