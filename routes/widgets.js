@@ -11,7 +11,7 @@ const MAPI = process.env.MOVIE_KEY;
 const express = require('express');
 const router = express.Router();
 const help = require('../public/scripts/app');
-const { isDuplicateName, addMovie, addBook} = require('../database');
+const { isDuplicateName, addMovie, addBook, addRestaurant} = require('../database');
 
 
 module.exports = (db) => {
@@ -94,10 +94,18 @@ module.exports = (db) => {
     //     yelpData.location = data.businesses[0].location.address1 + ', ' + data.businesses[0].location.city + ", " + data.businesses[0].location.state + ", " + data.businesses[0].location.zip_code;
     //     return yelpData;
     //   });
-    const yelpPromise = { name: 'Lugaro',
+    const yelpPromise = {
+      name: 'Lugaro',
       rating: 3.5,
       price: '$$$$',
-      location: '996 Park Royal S, West Vancouver, BC, V7T 1A1',
+      street: '996 Park Royal S',
+      city: 'West Vancouver',
+      province: 'BC',
+      post_code: 'V7T 1A1',
+      image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
+
+
+
     };
     const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
       year: '2001',
@@ -148,6 +156,7 @@ module.exports = (db) => {
                     // if it is {}, then we want it to not insert anything into the table
                 addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
                 addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
               } else if (category === 'books' && values[3] !== {}) {
 
                     // addBook([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, 'TRUE'], db)

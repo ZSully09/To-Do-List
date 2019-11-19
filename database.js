@@ -87,6 +87,26 @@ const addBook = function(values, db) {
   );
 };
 
+const addRestaurant = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO restaurants (
+      item_id,
+      name,
+      street,
+      city,
+      province,
+      post_code,
+      rating,
+      image,
+      price_range,
+      is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  `,
+    values
+  );
+};
 
 
 
@@ -97,5 +117,6 @@ module.exports = {
   getUserById,
   isDuplicateName,
   addMovie,
-  addBook
+  addBook,
+  addRestaurant
 };
