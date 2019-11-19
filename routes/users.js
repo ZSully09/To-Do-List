@@ -8,21 +8,18 @@
 
 const express = require('express');
 const router = express.Router();
-const { addUser } = require('../database');
-const { getUserByEmail } = require('../database');
+const { addUser, getUserByEmail, getUserById } = require('../database');
 const bcrypt = require('bcrypt');
 
-module.exports = (db) => {
-  router.get("/", (req, res) => {
+module.exports = db => {
+  router.get('/', (req, res) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
         const users = data.rows;
         res.json({ users });
       })
       .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
+        res.status(500).json({ error: err.message });
       });
   });
   router.get('/register', (req, res) => {
@@ -32,44 +29,101 @@ module.exports = (db) => {
       res.render('register');
     }
   });
-  router.post("/register", (req, res) => {
+  router.post('/register', (req, res) => {
     const user = req.body;
-    getUserByEmail(user.email, db)
-      .then(data => {
-        //check if user's email is not in db
-        if (!data.rows[0]) {
-          addUser(user, db).then(data => {
-            req.session.userId = data.id;
-            res.redirect('/');
-          });
-        } else {
-          res.send('Already registerd!');
-        }
-      });
+    getUserByEmail(user.email, db).then(data => {
+      //check if user's email is not in db
+      if (!data.rows[0]) {
+        addUser(user, db).then(data => {
+          req.session.userId = data.id;
+          res.redirect('/');
+        });
+      } else {
+        res.send('Already registerd!');
+      }
+    });
   });
   router.post('/login', (req, res) => {
     const user = req.body;
-    getUserByEmail(user.email, db)
-      .then(data => {
-
-        //check if user's email is not in db
-        if (!data.rows[0]) {
-          res.send('The email you entered does not belong to any account!');
+    getUserByEmail(user.email, db).then(data => {
+      //check if user's email is not in db
+      if (!data.rows[0]) {
+        res.send('The email you entered does not belong to any account!');
+      } else {
+        //check if user's password is correct
+        if (bcrypt.compareSync(user.password, data.rows[0].password)) {
+          req.session.userId = data.rows[0].id;
+          res.redirect('/');
         } else {
-          //check if user's password is correct
-          if (bcrypt.compareSync(user.password, data.rows[0].password)) {
-            req.session.userId = data.rows[0].id;
-            res.redirect('/');
-          } else {
-            res.send('Password is not correct!');
-          }
-
+          res.send('Password is not correct!');
         }
-      });
+      }
+    });
   });
-  router.post('/logout', (req, res) => {
+  router.get('/logout', (req, res) => {
     req.session = null;
     res.redirect('/');
   });
+
+  router.get('/watch', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('watch', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/eat', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('eat', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/read', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('read', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/buy', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('buy', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
   return router;
 };
