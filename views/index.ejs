@@ -28,9 +28,13 @@
       </form>
     </br>
     </br>
-      <form method="GET" action="/register">
-        <button type="submit" class="btn btn-dark">Register</button>
-        </form>
+    <form class="form-inline" action="/api/widgets/add" method="POST" name="api-search">
+      <div class="form-group mb-2">
+        <label for="longURL">Enter a URL:</label>
+        <input class="form-control" type="text" name="api-search" placeholder="http://" style="width: 300px; margin: 1em">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
     </div>
   </body>
 </html>

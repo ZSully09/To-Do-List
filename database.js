@@ -32,8 +32,45 @@ const getUserById = function(id, db) {
   );
 };
 
+const isDuplicateName = function(category, name, db) {
+  return db.query(`
+    SELECT * FROM ${category} WHERE name='${name}'`
+  )
+    .then(res => {
+      if (res.rowCount > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+const addMovie = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO movies (
+      item_id,
+      name,
+      director,
+      rating,
+      image,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, TRUE)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
+
+
+
+
 module.exports = {
   addUser,
   getUserByEmail,
-  getUserById
+  getUserById,
+  isDuplicateName,
+  addMovie
 };
