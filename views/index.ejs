@@ -36,15 +36,10 @@
   <body>
     <% include partials/_header.ejs %>
     <div class="input-group">
-        <form class="search" action="">
-            <input type="text" placeholder="Search">
-            <i class="fa fa-search"></i>
-          </form>
-      <!-- <input type="text" class="form-control" placeholder="Search" />
-      <div class="input-group-append">
-        <button class="btn btn-secondary" type="button">
-          <i class="fa fa-search"></i>
-        </button> -->
+      <form class="search" action="/api/widgets/add" method="POST" name="api-search">
+        <input type="text" name="api-search" placeholder="Search">
+        <i class="fa fa-search"></i>
+      </form>
       </div>
     </div>
     <main>
