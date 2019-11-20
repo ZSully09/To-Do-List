@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <% include partials/_header.ejs %>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Cop This</title>
-
+    <title>Products</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Scada:400,400i,700,700i&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
-    <!-- Bootstrap CSS for Buttons -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
+    <script type="text/javascript" src="/scripts/client.js"></script>
+
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
-    <h1>Cop These Next</h1>
+    <% include partials/_header.ejs %>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search" />
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <main>
+      <div class="container products">
+        <h1 class="header">
+          <a href="/api/users/buy">
+            Products
+          </a>
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          <i class="fa fa-plus"></i>
+        </h1>
+      </div>
+    </main>
   </body>
 </html>
