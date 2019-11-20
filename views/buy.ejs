@@ -25,6 +25,11 @@
   </head>
 
   <body>
-    <h1>Cop These Next</h1>
+    <h1 id="title"><%= item.name %></h1>
+    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.name %>" />
+    <h4 class="rating">Rating: <%= item.rating %>% Positive feedback</h4>
+    <h4 class="cost">Cost: <%= item.cost %>$</h4>
+    <p class="description">Description: <%= item.description %></p>
+    <a class="url-buy" href="<%= item.buy_reference %>">Buy</a>
   </body>
 </html>

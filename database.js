@@ -92,6 +92,46 @@ const getPlacesToEatById = function (user_id, db) {
     [`${user_id}`]
   );
 };
+const getMovieItemById = function (item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN movies
+    ON items.id = item_id
+    WHERE item_id = $1;
+    ` , [`${item_id}`]
+  );
+};
+const getRestaurantItemById = function (item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN restaurants
+    ON items.id = item_id
+    WHERE item_id = $1;
+    ` , [`${item_id}`]
+  );
+};
+const getBookItemById = function (item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN books
+    ON items.id = item_id
+    WHERE item_id = $1;
+    ` , [`${item_id}`]
+  );
+};
+const getProductItemById = function (item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN products
+    ON items.id = item_id
+    WHERE item_id = $1;
+    ` , [`${item_id}`]
+  );
+};
 
 const isDuplicateName = function(category, name, db) {
   return db.query(`
@@ -198,9 +238,14 @@ module.exports = {
   getItemsToReadById,
   getItemsToBuyById,
   getPlacesToEatById,
+  getMovieItemById,
+  getRestaurantItemById,
+  getBookItemById,
+  getProductItemById
   isDuplicateName,
   addMovie,
   addBook,
   addRestaurant,
   addProduct
 };
+
