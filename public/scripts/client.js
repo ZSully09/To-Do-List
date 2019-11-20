@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
-const createMovieItemElement = function (movies) {
-  const markup =
-    `<a href='http://localhost:8080/api/users/watch/${movies.item_id}'><section class="card movie">
+const createMovieItemElement = function(movies) {
+  const markup = `<a href='http://localhost:8080/api/users/watch/${movies.item_id}'><section class="card movie">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -9,15 +8,13 @@ const createMovieItemElement = function (movies) {
       alt="friends"
     />
   </div>
-
   <p class="name">${movies.title}</p>
 </section></a>`;
 
   return markup;
 };
-const createBooksItemElement = function (books) {
-  const markup =
-    `<a href='http://localhost:8080/api/users/read/${books.item_id}'> <section class="card book">
+const createBooksItemElement = function(books) {
+  const markup = `<a href='http://localhost:8080/api/users/read/${books.item_id}'> <section class="card book">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -25,17 +22,15 @@ const createBooksItemElement = function (books) {
       alt="friends"
     />
   </div>
-
   <p class="name">${books.title}</p>
 </section>
 </a>`;
 
   return markup;
 };
-const createRestaurantsItemElement = function (restaurant) {
+const createRestaurantsItemElement = function(restaurant) {
   console.log(restaurant);
-  const markup =
-    `<a href='http://localhost:8080/api/users/eat/${restaurant.item_id}'<section class="card restaurant">
+  const markup = `<a href='http://localhost:8080/api/users/eat/${restaurant.item_id}'<section class="card restaurant">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -43,15 +38,13 @@ const createRestaurantsItemElement = function (restaurant) {
       alt="friends"
     />
   </div>
-
   <p class="name">${restaurant.name}</p>
 </section>`;
 
   return markup;
 };
-const createProductsItemElement = function (product) {
-  const markup =
-    `<a href='http://localhost:8080/api/users/buy/${product.item_id}' <section class="card product" >
+const createProductsItemElement = function(product) {
+  const markup = `<a href='http://localhost:8080/api/users/buy/${product.item_id}' <section class="card product" >
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -59,14 +52,12 @@ const createProductsItemElement = function (product) {
       alt="friends"
     />
   </div>
-
   <p class="name">${product.name}</p>
 </section>`;
 
   return markup;
 };
-const renderItems = function (obj) {
-
+const renderItems = function(obj) {
   for (const item in obj) {
     if (item === 'movies') {
       obj[item].forEach(element => {
@@ -80,7 +71,6 @@ const renderItems = function (obj) {
       obj[item].forEach(element => {
         $('.restaurants').append(createRestaurantsItemElement(element));
       });
-
     } else if (item === 'products') {
       obj[item].forEach(element => {
         $('.products').append(createProductsItemElement(element));
@@ -89,19 +79,18 @@ const renderItems = function (obj) {
   }
 };
 
-const loadItems = function () {
+const loadItems = function() {
   $.ajax({
-    method: "GET",
-    url: "/api/users"
-  }).done((data) => {
+    method: 'GET',
+    url: '/api/users'
+  }).done(data => {
     if (!data) {
-      alert("Error: not be able to fetch items");
+      alert('Error: not be able to fetch items');
     } else {
       renderItems(data);
     }
-
   });
 };
-$(document).ready(function () {
+$(document).ready(function() {
   loadItems();
 });
