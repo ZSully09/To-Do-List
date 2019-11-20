@@ -28,24 +28,18 @@
 
   <body>
     <% include partials/_header.ejs %>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search" />
-      <div class="input-group-append">
-        <button class="btn btn-secondary" type="button">
-          <i class="fa fa-search"></i>
-        </button>
-      </div>
-    </div>
     <main>
-      <div class="container movies">
-        <h1 class="header">
-          <a href="/api/users/watch">
-            Movies
-          </a>
-          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-          <i class="fa fa-plus"></i>
-        </h1>
-      </div>
+      <h1 class="title"><%= item.title %></h1>
+      <img
+        class="thumbn-image"
+        src="<%= item.image %>"
+        alt="<%= item.title %>"
+      />
+      <h4 class="rating">Rating: <%= item.rating %>/10</h4>
+      <h4 class="actor">Actors: <%= item.actors %></h4>
+      <h4 class="director">Director: <%= item.director %></h4>
+      <p class="description">Description: <%= item.description %></p>
+      <h4 class="duration">Duration: <%= item.duration %></h4>
     </main>
   </body>
 </html>

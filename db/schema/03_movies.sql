@@ -4,12 +4,12 @@ CREATE TABLE movies
   (
     id SERIAL PRIMARY KEY NOT NULL,
     item_id INTEGER REFERENCES items(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     director VARCHAR(255) NOT NULL,
     actors VARCHAR(500) NOT NULL,
     rating SMALLINT NOT NULL DEFAULT 0,
     image VARCHAR(500),
-    duration SMALLINT,
+    duration VARCHAR(255),
     description TEXT,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
   );
