@@ -41,7 +41,7 @@ const getItemsToWatchById = function (user_id, db) {
     ON movies.item_id = items.id
     JOIN users
     ON items.user_id = users.id
-    WHERE users.id = $1
+    WHERE users.id = $1 AND is_active = TRUE
     ORDER BY created_at DESC;
     `,
     [`${user_id}`]
@@ -56,7 +56,7 @@ const getItemsToReadById = function (user_id, db) {
     ON books.item_id = items.id
     JOIN users
     ON items.user_id = users.id
-    WHERE users.id = $1
+    WHERE users.id = $1 AND is_active = TRUE
     ORDER BY created_at DESC;
     `,
     [`${user_id}`]
@@ -71,7 +71,7 @@ const getItemsToBuyById = function (user_id, db) {
     ON products.item_id = items.id
     JOIN users
     ON items.user_id = users.id
-    WHERE users.id = $1
+    WHERE users.id = $1 AND is_active = TRUE
     ORDER BY created_at DESC;
     `,
     [`${user_id}`]
@@ -86,7 +86,7 @@ const getPlacesToEatById = function (user_id, db) {
     ON restaurants.item_id = items.id
     JOIN users
     ON items.user_id = users.id
-    WHERE users.id = $1
+    WHERE users.id = $1 AND is_active = TRUE
     ORDER BY created_at DESC;
     `,
     [`${user_id}`]
@@ -241,7 +241,7 @@ module.exports = {
   getMovieItemById,
   getRestaurantItemById,
   getBookItemById,
-  getProductItemById
+  getProductItemById,
   isDuplicateName,
   addMovie,
   addBook,
