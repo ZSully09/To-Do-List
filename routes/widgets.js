@@ -41,6 +41,7 @@ module.exports = (db) => {
 
     // const moviePromise = help.apiRequest('http://www.omdbapi.com/?t=' + name + '&apikey=' + MAPI)
     //   .then(response => {
+    //     console.log(response['imdbRating'])
 
     //     // takes title from API call and saves it to temp object to compare results
     //     if (response.Title) {
@@ -50,41 +51,46 @@ module.exports = (db) => {
     //       movieData.poster = response['Poster'];
     //       movieData.rating = response['imdbRating'];
     //       movieData.boxOffice = response['BoxOffice'];
+    //       movieData.actors = response['Actors']
+    //       movieData.description = response['Plot']
     //     }
     //     return movieData;
     //   })
     //   .catch(error => {
     //     res.send(error);
     //   });
-    // const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
-    //   .then(response => {
-    //     // takes title from API call and saves it to temp object to compare results
-    //     if (response.totalItems > 0) {
+    const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
+      .then(response => {
+        // takes title from API call and saves it to temp object to compare results
+        if (response.totalItems > 0) {
 
-    //       bookData.name = response.items[0]['volumeInfo']['title'];
-    //       bookData.author = response.items[0]['volumeInfo']['authors'][0];
-    //       bookData.description = response.items[0]['volumeInfo']['description'];
-    //       bookData.thumbnail = response.items[0]['volumeInfo']['imageLinks']['smallThumbnail'];
-    //       bookData.rating = response.items[0]['volumeInfo']['averageRating'];
-    //     }
-    //     return bookData;
-    //   })
-    //   .catch(error => {
-    //     res.send(error);
-    //   });
+          bookData.name = response.items[0]['volumeInfo']['title'];
+          bookData.author = response.items[0]['volumeInfo']['authors'][0];
+          bookData.description = response.items[0]['volumeInfo']['description'];
+          bookData.image = response.items[0]['volumeInfo']['imageLinks']['smallThumbnail'];
+          bookData.rating = response.items[0]['volumeInfo']['averageRating'];
+          bookData.publication_year = response.items[0]['volumeInfo']['publishedDate']
+          bookData.pages = response.items[0]['volumeInfo']['pageCount']
+        }
+        return bookData;
+      })
+      .catch(error => {
+        res.send(error);
+      });
 
-    // const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + '&cx=015636378830428160186:o52uathqmlb&q=' + name)
-    //   .then(response => {
-    //     // product results are not giving very good responses...
+    const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + '&cx=015636378830428160186:o52uathqmlb&q=' + name)
+      .then(response => {
+        // product results are not giving very good responses...
 
-    //     productData.name = response.items[0]['pagemap']['metatags'][0]['title'];
-    //     productData.image = response.items[0].pagemap.scraped[0].image_link;
-    //     productData.url = response.items[0].pagemap.metatags[0]['og:url'];
-    //     return productData;
-    //   })
-    //   .catch(error => {
-    //     res.send(error);
-    //   });
+        productData.name = response.items[0]['pagemap']['metatags'][0]['title'];
+        productData.image = response.items[0].pagemap.scraped[0].image_link;
+        productData.link = response.items[0].pagemap.metatags[0]['og:url'];
+        productData.description = response.items[0]['snippet']
+        return productData;
+      })
+      .catch(error => {
+        res.send(error);
+      });
     const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
       .then(response => {
         const data = JSON.parse(response.body);
@@ -98,20 +104,17 @@ module.exports = (db) => {
         yelpData.image = data.businesses[0].image_url
         return yelpData;
       });
-
-    // const yelpPromise = {
-    //   name: 'Lugaro',
-    //   rating: 3.5,
-    //   price: '$$$$',
-    //   street: '996 Park Royal S',
-    //   city: 'West Vancouver',
-    //   province: 'BC',
-    //   post_code: 'V7T 1A1',
-    //   image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
-
-
-
-    // };
+/* Test Data for when not wanting to make API calls too much below here ================================
+    const yelpPromise = {
+      name: 'Lugaro',
+      rating: 3.5,
+      price: '$$$$',
+      street: '996 Park Royal S',
+      city: 'West Vancouver',
+      province: 'BC',
+      post_code: 'V7T 1A1',
+      image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
+    };
     const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
       year: '2001',
       actors: 'Alan Howard, Noel Appleby, Sean Astin, Sala Baker',
@@ -134,6 +137,8 @@ module.exports = (db) => {
       rating: 4,
       publication_year: 2012,
       pages: 531 };
+
+    */
 
     Promise.all([yelpPromise, moviePromise, productPromise, bookPromise])
     // promise all takes the promises created by the api requests and waits for them all to resolve
