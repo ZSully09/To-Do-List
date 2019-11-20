@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Readings</title>
+    <title>Books</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -15,6 +15,7 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
     <!-- Bootstrap CSS for Buttons -->
     <link
       rel="stylesheet"
@@ -25,6 +26,14 @@
   </head>
 
   <body>
-    <h1>Read These</h1>
+    <h1 id="title"><%= item.title %></h1>
+    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.title %>" />
+    <h4 class="author">Author: <%= item.author %></h4>
+    <h4 class="actor">Rating: <%= item.rating %></h4>
+    <h4 class="pages">Number of Pages: <%= item.pages %></h4>
+    <h4 class="publication-year">
+      Publication year: <%= item.publication_year%>
+    </h4>
+    <p class="description">Description: <%= item.description %></p>
   </body>
 </html>

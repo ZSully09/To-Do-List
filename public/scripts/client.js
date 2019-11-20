@@ -1,8 +1,7 @@
 /* eslint-disable no-undef */
 const createMovieItemElement = function (movies) {
-
   const markup =
-    ` <section class="card">
+    `<a href='http://localhost:8080/api/users/watch/${movies.item_id}'><section class="card movie">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -12,15 +11,13 @@ const createMovieItemElement = function (movies) {
   </div>
 
   <p class="name">${movies.title}</p>
-</section>`;
+</section></a>`;
 
   return markup;
 };
 const createBooksItemElement = function (books) {
-
-  console.log(books);
   const markup =
-    ` <section class="card">
+    `<a href='http://localhost:8080/api/users/read/${books.item_id}'> <section class="card book">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -30,14 +27,15 @@ const createBooksItemElement = function (books) {
   </div>
 
   <p class="name">${books.title}</p>
-</section>`;
+</section>
+</a>`;
 
   return markup;
 };
 const createRestaurantsItemElement = function (restaurant) {
-
+  console.log(restaurant);
   const markup =
-    ` <section class="card">
+    `<a href='http://localhost:8080/api/users/eat/${restaurant.item_id}'<section class="card restaurant">
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -52,10 +50,8 @@ const createRestaurantsItemElement = function (restaurant) {
   return markup;
 };
 const createProductsItemElement = function (product) {
-
-
   const markup =
-    ` <section class="card">
+    `<a href='http://localhost:8080/api/users/buy/${product.item_id}' <section class="card product" >
   <div class="img-div">
     <img
       class="thumbnail rounded-circle"
@@ -69,7 +65,7 @@ const createProductsItemElement = function (product) {
 
   return markup;
 };
-const renderMovieItems = function (obj) {
+const renderItems = function (obj) {
 
   for (const item in obj) {
     if (item === 'movies') {
@@ -93,20 +89,19 @@ const renderMovieItems = function (obj) {
   }
 };
 
-const loadMovieItems = function () {
+const loadItems = function () {
   $.ajax({
     method: "GET",
     url: "/api/users"
   }).done((data) => {
     if (!data) {
-      alert("Error: not be able to fetch tweets");
+      alert("Error: not be able to fetch items");
     } else {
-      // console.log(data);
-      renderMovieItems(data);
+      renderItems(data);
     }
 
   });
 };
 $(document).ready(function () {
-  loadMovieItems();
+  loadItems();
 });

@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Om Nom Nom</title>
+    <title>Restaurants</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
@@ -25,6 +25,15 @@
   </head>
 
   <body>
-    <h1>Om Nom Nom</h1>
+    <h1 id="title"><%= item.name %></h1>
+    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.name %>" />
+    <h4 class="rating">Rating: <%= item.rating %></h4>
+    <h4 class="cost">Price range: <%= item.price_range %>$</h4>
+    <h4 class="operation-time">
+      Open .closes: <%= item.hours_of_operation %>
+    </h4>
+    <p class="address">
+      Address: <%= item.street %>, <%= item.city %>, <%= item.post_code %>
+    </p>
   </body>
 </html>
