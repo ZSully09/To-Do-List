@@ -93,6 +93,103 @@ const getPlacesToEatById = function (user_id, db) {
   );
 };
 
+const isDuplicateName = function(category, name, db) {
+  return db.query(`
+    SELECT * FROM ${category} WHERE name=$1
+    `,[`${name}`]
+  )
+    .then(res => {
+      if (res.rowCount > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+const addMovie = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO movies (
+      item_id,
+      name,
+      director,
+      rating,
+      image,
+      actors,
+      description,
+      duration,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
+const addBook = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO books (
+      item_id,
+      name,
+      author,
+      pages,
+      image,
+      publication_year,
+      rating,
+      description,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
+const addRestaurant = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO restaurants (
+      item_id,
+      name,
+      street,
+      city,
+      province,
+      post_code,
+      rating,
+      image,
+      price_range,
+      is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  `,
+    values
+  );
+};
+
+const addProduct = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO products (
+    item_id,
+    name,
+    link,
+
+    image,
+    description,
+    is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6)
+  `,
+    values
+  );
+};
+
+
+
 module.exports = {
   addUser,
   getUserByEmail,
@@ -100,5 +197,10 @@ module.exports = {
   getItemsToWatchById,
   getItemsToReadById,
   getItemsToBuyById,
-  getPlacesToEatById
+  getPlacesToEatById,
+  isDuplicateName,
+  addMovie,
+  addBook,
+  addRestaurant,
+  addProduct
 };

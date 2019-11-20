@@ -1,4 +1,4 @@
-INSERT INTO movies (item_id, title, director, actors, rating, image, duration, description, is_active)
+INSERT INTO movies (item_id, name, director, actors, rating, image, duration, description, is_active)
   VALUES
     (2, 'Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan', 'Larry Charles', 'Sasha Baron Cohen', 7.3, 'https://m.media-amazon.com/images/M/MV5BMTk0MTQ3NDQ4Ml5BMl5BanBnXkFtZTcwOTQ3OTQzMw@@._V1_UX182_CR0,0,182,268_AL_.jpg', 84, 'Kazakh TV talking head Borat is dispatched to the United States to report on the greatest country in the world. With a documentary crew in tow, Borat becomes more interested in locating and marrying Pamela Anderson.', TRUE),
     (7, 'Fight Club', 'David Fincher', 'Brad Pitt', 8.8, 'https://m.media-amazon.com/images/M/MV5BMmEzNTkxYjQtZTc0MC00YTVjLTg5ZTEtZWMwOWVlYzY0NWIwXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg', 139, 'An insomniac office worker and a devil-may-care soapmaker form an underground fight club that evolves into something much, much more.', TRUE),
