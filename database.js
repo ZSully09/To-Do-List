@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 //database functions
 const bcrypt = require('bcrypt');
 
-const addUser = function(user, db) {
+const addUser = function (user, db) {
   return db
     .query(
       `
@@ -15,7 +16,7 @@ const addUser = function(user, db) {
       }
     });
 };
-const getUserByEmail = function(email, db) {
+const getUserByEmail = function (email, db) {
   return db.query(
     `
   SELECT * FROM users WHERE email=$1`,
@@ -24,7 +25,7 @@ const getUserByEmail = function(email, db) {
 };
 
 // Get User by Id used to show a users email in the header.
-const getUserById = function(id, db) {
+const getUserById = function (id, db) {
   return db.query(
     `
   SELECT * FROM users WHERE id=$1`,
@@ -32,7 +33,7 @@ const getUserById = function(id, db) {
   );
 };
 
-const getItemsToWatchById = function(user_id, db) {
+const getItemsToWatchById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM movies
@@ -47,7 +48,7 @@ const getItemsToWatchById = function(user_id, db) {
   );
 };
 
-const getItemsToReadById = function(user_id, db) {
+const getItemsToReadById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM books
@@ -62,7 +63,7 @@ const getItemsToReadById = function(user_id, db) {
   );
 };
 
-const getItemsToBuyById = function(user_id, db) {
+const getItemsToBuyById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM products
@@ -77,7 +78,7 @@ const getItemsToBuyById = function(user_id, db) {
   );
 };
 
-const getPlacesToEatById = function(user_id, db) {
+const getPlacesToEatById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM restaurants
