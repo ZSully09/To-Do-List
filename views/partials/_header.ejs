@@ -1,5 +1,6 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
     <a class="navbar-brand" href="/">Smart To Do List</a>
     <button
       class="navbar-toggler"
@@ -14,7 +15,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
     <% if(userId) { %>
+
     <form method="GET" action="/api/users/logout">
+
       <label for="username" style="font-size: 20px;color: white"
         >Logged in As: <%= user.email %></label
       >

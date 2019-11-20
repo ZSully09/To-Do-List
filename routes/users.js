@@ -8,8 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { addUser } = require('../database');
-const { getUserByEmail } = require('../database');
+const { addUser, getUserByEmail, getUserById } = require('../database');
 const bcrypt = require('bcrypt');
 
 module.exports = db => {
@@ -65,5 +64,66 @@ module.exports = db => {
     req.session = null;
     res.redirect('/');
   });
+
+  router.get('/watch', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('watch', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/eat', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('eat', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/read', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('read', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
+  router.get('/buy', (req, res) => {
+    if (!req.session.userId) {
+      res.render('login');
+    } else {
+      getUserById(req.session.userId, db).then(user => {
+        // Displays email in header
+        // console.log(user);
+        res.render('buy', {
+          userId: req.session.userId,
+          user: user.rows[0]
+        });
+      });
+    }
+  });
+
   return router;
 };
