@@ -39,30 +39,43 @@ module.exports = {
   },
 
   compareResults : function(array, searchTerm) {
+
     let dbTitle = "";
+    let name = "";
+    let answerArray = [];
     const restaurant = array[0].name;
-    const book = array[2].name;
-    const product = array[3].name;
+    const book = array[3].name;
+    const product = array[2].name;
     const movie = array[1].name;
     if (restaurant === searchTerm) {
       dbTitle = 'restaurants';
-      return dbTitle;
+      name = restaurant;
+      answerArray.push(dbTitle, name);
+      return answerArray;
     }
     if (book === searchTerm) {
       dbTitle = 'books';
-      return dbTitle;
+      name = book;
+      answerArray.push(dbTitle, name);
+
+      return answerArray;
     }
     if (product === searchTerm) {
       dbTitle = 'products';
-      return dbTitle;
+      name = product;
+      answerArray.push(dbTitle, name);
+      return answerArray;
     }
     if (movie === searchTerm) {
       dbTitle = 'movies';
-      return dbTitle;
+      name = movie;
+      answerArray.push(dbTitle, name);
+      return answerArray;
     }
-
     dbTitle = 'movies';
-    return dbTitle;
+    name = movie;
+    answerArray.push(dbTitle, name);
+    return answerArray;
   }
 
 };

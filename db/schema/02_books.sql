@@ -9,7 +9,7 @@ CREATE TABLE books
     author VARCHAR(255) NOT NULL,
     pages SMALLINT,
     image VARCHAR(500),
-    publication_year SMALLINT,
+    publication_year VARCHAR(255),
     rating SMALLINT NOT NULL DEFAULT 0,
     description TEXT,
     is_active BOOLEAN NOT NULL DEFAULT FALSE

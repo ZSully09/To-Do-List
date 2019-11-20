@@ -20,7 +20,7 @@ module.exports = (db) => {
 
   router.get("/", (req, res) => {
     let query = `SELECT * FROM widgets`;
-    console.log(query);
+    // console.log(query);
     db.query(query)
       .then(data => {
         const widgets = data.rows;
@@ -39,28 +39,28 @@ module.exports = (db) => {
     let yelpData = {};
     const name = req.body['api-search'];
 
-    // const moviePromise = help.apiRequest('http://www.omdbapi.com/?t=' + name + '&apikey=' + MAPI)
-    //   .then(response => {
-    //     console.log(response['imdbRating'])
+    const moviePromise = help.apiRequest('http://www.omdbapi.com/?t=' + name + '&apikey=' + MAPI)
+      .then(response => {
 
-    //     // takes title from API call and saves it to temp object to compare results
-    //     if (response.Title) {
-    //       movieData.name = response['Title'];
-    //       movieData.year = response['Year'];
-    //       movieData.director = response['Director'];
-    //       movieData.poster = response['Poster'];
-    //       movieData.rating = response['imdbRating'];
-    //       movieData.boxOffice = response['BoxOffice'];
-    //       movieData.actors = response['Actors']
-    //       movieData.description = response['Plot']
-    //     }
-    //     return movieData;
-    //   })
-    //   .catch(error => {
-    //     res.send(error);
-    //   });
+        // if resposne is a good one (i.e has "Title" it will add relevant data to the movieData object)
+        if (response.Title) {
+          movieData.name = response['Title'];
+          movieData.year = response['Year'];
+          movieData.director = response['Director'];
+          movieData.poster = response['Poster'];
+          movieData.rating = response['imdbRating'];
+          movieData.boxOffice = response['BoxOffice'];
+          movieData.actors = response['Actors']
+          movieData.description = response['Plot']
+        }
+        return movieData;
+      })
+      .catch(error => {
+        res.send(error);
+      });
     const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
       .then(response => {
+        // console.log(response)
         // takes title from API call and saves it to temp object to compare results
         if (response.totalItems > 0) {
 
@@ -80,11 +80,12 @@ module.exports = (db) => {
 
     const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + '&cx=015636378830428160186:o52uathqmlb&q=' + name)
       .then(response => {
+        console.log(response.items[0])
         // product results are not giving very good responses...
 
-        productData.name = response.items[0]['pagemap']['metatags'][0]['title'];
-        productData.image = response.items[0].pagemap.scraped[0].image_link;
-        productData.link = response.items[0].pagemap.metatags[0]['og:url'];
+        productData.name = response.items[0]['title'];
+        productData.image = response.items[0]['pagemap']['cse_thumbnail'][0]['src'];
+        productData.link = response.items[0].link;
         productData.description = response.items[0]['snippet']
         return productData;
       })
@@ -93,7 +94,9 @@ module.exports = (db) => {
       });
     const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
       .then(response => {
+        // console.log(response)
         const data = JSON.parse(response.body);
+        if (data.total != 0) {
         yelpData.name = data.businesses[0].name;
         yelpData.rating = data.businesses[0].rating;
         yelpData.price = data.businesses[0].price;
@@ -102,7 +105,12 @@ module.exports = (db) => {
         yelpData.province = data.businesses[0].location.state
         yelpData.post_code = data.businesses[0].location.zip_code;
         yelpData.image = data.businesses[0].image_url
+
+        }
         return yelpData;
+        })
+        .catch(error => {
+          res.send(error)
       });
 /* Test Data for when not wanting to make API calls too much below here ================================
     const yelpPromise = {
@@ -143,18 +151,20 @@ module.exports = (db) => {
     Promise.all([yelpPromise, moviePromise, productPromise, bookPromise])
     // promise all takes the promises created by the api requests and waits for them all to resolve
       .then(values => {
-
+        // console.log(values)
         // compares the results and returns the category that best fits the user input
-        let category = help.compareResults(values, name);
-
-        console.log(category);
-        console.log(values[1].name);
-        isDuplicateName(category, values[1].name, db)
-        // checks to see if the exact item already exists in a given table (by name)
+        let dupArray = help.compareResults(values, name);
+        console.log(dupArray)
+        let category = dupArray[0]
+        isDuplicateName(dupArray[0], dupArray[1], db)
+        // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...
           .then(bool => {
+            // console.log(bool)
             if (bool !== true && (values[0] !== {} || values[1] !== {} || values[2] !== {} || values[3] !== {})) {
               // checks if it's duplicate name and also checks to make sure that at least one API sent an apropreate response
+
               db.query(
+
                 // insert the new item into the items table
                 `
           INSERT INTO items(user_id) VALUES ($1)
@@ -164,6 +174,7 @@ module.exports = (db) => {
               )
             .then(res => {
               if (category === 'movies' && values[1] !== {}) {
+                console.log('movies')
                     // if the category is movies then insert the item and associated data in movies table
                     // note the empty object is only there because by default the category is set to movies
                     // if it is {}, then we want it to not insert anything into the table
@@ -172,24 +183,27 @@ module.exports = (db) => {
                 addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
                 addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
               } else if (category === 'books' && values[3] !== {}) {
+                console.log('books, correct')
                   addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, true], db)
                   addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
 
               } else if (category === 'products' && values[2] !== {}) {
+                console.log('products')
                   addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
                   addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, true], db)
               } else if (category === 'restaurants' && values[0] !== {}) {
+                console.log('restaurants')
+                // console.log(values[3])
                   addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
                   addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, true], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
               }
             });
-              console.log('yeet');
               //  console.log(req.session.userId)
               res.redirect('/');
             } else {

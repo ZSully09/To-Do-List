@@ -34,7 +34,8 @@ const getUserById = function(id, db) {
 
 const isDuplicateName = function(category, name, db) {
   return db.query(`
-    SELECT * FROM ${category} WHERE name='${name}'`
+    SELECT * FROM ${category} WHERE name=$1
+    `,[`${name}`]
   )
     .then(res => {
       if (res.rowCount > 0) {
