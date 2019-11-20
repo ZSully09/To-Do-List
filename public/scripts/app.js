@@ -20,49 +20,62 @@ const client = yelp.client(process.env.YELP_KEY);
 
 
 module.exports = {
-  apiRequest : function(url){
+  apiRequest : function(url) {
     return new Promise((resolve, reject) => {
       request(url, { json: true }, (err, res, body) => {
-        if (err) reject(err)
-          resolve(body)
-        });
-    })
+        if (err) reject(err);
+        resolve(body);
+      });
+    });
   },
   yelpRequest : function(name, location) {
     const searchRequest = {
       term: name,
       location: location
     };
-    return new Promise((resolve, reject) => {
-      resolve(client.search(searchRequest))
-    })
+    return new Promise((resolve) => {
+      resolve(client.search(searchRequest));
+    });
   },
+
   compareResults : function(array, searchTerm) {
-    let dbTitle = ""
 
-    const restaurant = array[0].name
-    const book = array[1].name
-    const product = array[2].name
-    const movie = array[3].name
-    if(restaurant === searchTerm) {
-      dbTitle = restaurant
-      return dbTitle
+    let dbTitle = "";
+    let name = "";
+    let answerArray = [];
+    const restaurant = array[0].name;
+    const book = array[3].name;
+    const product = array[2].name;
+    const movie = array[1].name;
+    if (restaurant === searchTerm) {
+      dbTitle = 'restaurants';
+      name = restaurant;
+      answerArray.push(dbTitle, name);
+      return answerArray;
     }
-    if(book === searchTerm) {
-      dbTitle = book
-      return dbTitle
-    }
-    if(product === searchTerm) {
-      dbTitle = product
-      return dbTitle
-    }
-    if(movie === searchTerm) {
-      dbTitle = movie
-      return dbTitle
-    }
+    if (book === searchTerm) {
+      dbTitle = 'books';
+      name = book;
+      answerArray.push(dbTitle, name);
 
-    dbTitle = movie;
-    return dbTitle
+      return answerArray;
+    }
+    if (product === searchTerm) {
+      dbTitle = 'products';
+      name = product;
+      answerArray.push(dbTitle, name);
+      return answerArray;
+    }
+    if (movie === searchTerm) {
+      dbTitle = 'movies';
+      name = movie;
+      answerArray.push(dbTitle, name);
+      return answerArray;
+    }
+    dbTitle = 'movies';
+    name = movie;
+    answerArray.push(dbTitle, name);
+    return answerArray;
   }
 
-}
+};
