@@ -8,18 +8,55 @@
 
 const express = require('express');
 const router = express.Router();
-const { addUser, getUserByEmail, getUserById } = require('../database');
+const { addUser, getUserByEmail, getUserById, getItemsToWatchById,
+  getItemsToBuyById, getItemsToReadById, getPlacesToEatById } = require('../database');
 const bcrypt = require('bcrypt');
 
 module.exports = db => {
   router.get('/', (req, res) => {
-    db.query(`SELECT * FROM users;`)
+    const userLists = {
+      movies: [],
+      books: [],
+      restaurants: [],
+      products: []
+    };
+    new Promise((resolve, reject) => {
+      getUserById(req.session.userId, db)
+        .then(res => {
+          if (res.rows.length) {
+            const user = res.rows[0];
+            getItemsToWatchById(user.id, db)
+              .then(data => {
+                for (const item of data.rows) {
+                  userLists['movies'].push(item);
+                }
+              });
+            getItemsToReadById(user.id, db)
+              .then(data => {
+                for (const item of data.rows) {
+                  userLists['books'].push(item);
+                }
+              });
+            getPlacesToEatById(user.id, db)
+              .then(data => {
+                for (const item of data.rows) {
+                  userLists['restaurants'].push(item);
+                }
+                // console.log(userLists);
+              });
+            getItemsToBuyById(user.id, db)
+              .then(data => {
+                for (const item of data.rows) {
+                  userLists['products'].push(item);
+                }
+                resolve(userLists);
+              });
+          }
+        });
+    })
       .then(data => {
-        const users = data.rows;
-        res.json({ users });
-      })
-      .catch(err => {
-        res.status(500).json({ error: err.message });
+        // console.log(data);
+        res.json(data);
       });
   });
   router.get('/register', (req, res) => {
