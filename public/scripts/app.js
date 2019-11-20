@@ -40,6 +40,7 @@ module.exports = {
 
   compareResults : function(array, searchTerm) {
 
+    console.log(array, searchTerm)
     let dbTitle = "";
     let name = "";
     let answerArray = [];
@@ -47,6 +48,12 @@ module.exports = {
     const book = array[3].name;
     const product = array[2].name;
     const movie = array[1].name;
+    if (movie === searchTerm) {
+      dbTitle = 'movies';
+      name = movie;
+      answerArray.push(dbTitle, name);
+      return answerArray;
+    }
     if (restaurant === searchTerm) {
       dbTitle = 'restaurants';
       name = restaurant;
@@ -63,12 +70,6 @@ module.exports = {
     if (product === searchTerm) {
       dbTitle = 'products';
       name = product;
-      answerArray.push(dbTitle, name);
-      return answerArray;
-    }
-    if (movie === searchTerm) {
-      dbTitle = 'movies';
-      name = movie;
       answerArray.push(dbTitle, name);
       return answerArray;
     }

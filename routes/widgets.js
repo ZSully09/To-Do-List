@@ -80,7 +80,6 @@ module.exports = (db) => {
 
     const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + '&cx=015636378830428160186:o52uathqmlb&q=' + name)
       .then(response => {
-        console.log(response.items[0])
         // product results are not giving very good responses...
 
         productData.name = response.items[0]['title'];
@@ -156,7 +155,7 @@ module.exports = (db) => {
         let dupArray = help.compareResults(values, name);
         console.log(dupArray)
         let category = dupArray[0]
-        isDuplicateName(dupArray[0], dupArray[1], db)
+        isDuplicateName(dupArray[0], dupArray[1], req.session.userId, db)
         // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...
           .then(bool => {
             // console.log(bool)
