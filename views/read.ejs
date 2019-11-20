@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <% include partials/_header.ejs %>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Good Reads</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Scada:400,400i,700,700i&display=swap"
+      rel="stylesheet"
     />
     <title>Books</title>
 
@@ -15,17 +23,14 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/client.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-    <!-- Bootstrap CSS for Buttons -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
+
+    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
+    <% include partials/_header.ejs %>
     <h1 id="title"><%= item.title %></h1>
     <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.title %>" />
     <h4 class="author">Author: <%= item.author %></h4>
@@ -35,5 +40,7 @@
       Publication year: <%= item.publication_year%>
     </h4>
     <p class="description">Description: <%= item.description %></p>
+    </main>
+
   </body>
 </html>
