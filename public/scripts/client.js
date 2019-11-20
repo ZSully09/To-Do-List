@@ -8,7 +8,7 @@ const createMovieItemElement = function(movies) {
       alt="friends"
     />
   </div>
-  <p class="name">${movies.title}</p>
+  <p class="name">${movies.name}</p>
 </section></a>`;
 
   return markup;
@@ -22,7 +22,7 @@ const createBooksItemElement = function(books) {
       alt="friends"
     />
   </div>
-  <p class="name">${books.title}</p>
+  <p class="name">${books.name}</p>
 </section>
 </a>`;
 
