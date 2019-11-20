@@ -28,22 +28,13 @@
 
   <body>
     <% include partials/_header.ejs %>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search" />
-      <div class="input-group-append">
-        <button class="btn btn-secondary" type="button">
-          <i class="fa fa-search"></i>
-        </button>
-      </div>
-    </div>
     <main>
-      <div class="container products">
-        <h1 class="header">
-          <a href="/api/users/buy">
-            Products
-          </a>
-          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-          <i class="fa fa-plus"></i>
+        <h1 id="title"><%= item.name %></h1>
+        <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.name %>" />
+        <h4 class="rating">Rating: <%= item.rating %>% Positive feedback</h4>
+        <h4 class="cost">Cost: <%= item.cost %>$</h4>
+        <p class="description">Description: <%= item.description %></p>
+        <a class="url-buy" href="<%= item.buy_reference %>">Buy</a>
         </h1>
       </div>
     </main>

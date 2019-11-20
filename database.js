@@ -2,7 +2,7 @@
 //database functions
 const bcrypt = require('bcrypt');
 
-const addUser = function (user, db) {
+const addUser = function(user, db) {
   return db
     .query(
       `
@@ -16,7 +16,7 @@ const addUser = function (user, db) {
       }
     });
 };
-const getUserByEmail = function (email, db) {
+const getUserByEmail = function(email, db) {
   return db.query(
     `
   SELECT * FROM users WHERE email=$1`,
@@ -25,7 +25,7 @@ const getUserByEmail = function (email, db) {
 };
 
 // Get User by Id used to show a users email in the header.
-const getUserById = function (id, db) {
+const getUserById = function(id, db) {
   return db.query(
     `
   SELECT * FROM users WHERE id=$1`,
@@ -33,7 +33,7 @@ const getUserById = function (id, db) {
   );
 };
 
-const getItemsToWatchById = function (user_id, db) {
+const getItemsToWatchById = function(user_id, db) {
   return db.query(
     `
     SELECT * FROM movies
@@ -48,7 +48,7 @@ const getItemsToWatchById = function (user_id, db) {
   );
 };
 
-const getItemsToReadById = function (user_id, db) {
+const getItemsToReadById = function(user_id, db) {
   return db.query(
     `
     SELECT * FROM books
@@ -63,7 +63,7 @@ const getItemsToReadById = function (user_id, db) {
   );
 };
 
-const getItemsToBuyById = function (user_id, db) {
+const getItemsToBuyById = function(user_id, db) {
   return db.query(
     `
     SELECT * FROM products
@@ -78,7 +78,7 @@ const getItemsToBuyById = function (user_id, db) {
   );
 };
 
-const getPlacesToEatById = function (user_id, db) {
+const getPlacesToEatById = function(user_id, db) {
   return db.query(
     `
     SELECT * FROM restaurants
@@ -92,6 +92,148 @@ const getPlacesToEatById = function (user_id, db) {
     [`${user_id}`]
   );
 };
+const getMovieItemById = function(item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN movies
+    ON items.id = item_id
+    WHERE item_id = $1;
+    `,
+    [`${item_id}`]
+  );
+};
+const getRestaurantItemById = function(item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN restaurants
+    ON items.id = item_id
+    WHERE item_id = $1;
+    `,
+    [`${item_id}`]
+  );
+};
+const getBookItemById = function(item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN books
+    ON items.id = item_id
+    WHERE item_id = $1;
+    `,
+    [`${item_id}`]
+  );
+};
+const getProductItemById = function(item_id, db) {
+  return db.query(
+    `
+    SELECT * FROM items
+    JOIN products
+    ON items.id = item_id
+    WHERE item_id = $1;
+    `,
+    [`${item_id}`]
+  );
+};
+
+const isDuplicateName = function(category, name, db) {
+  return db
+    .query(
+      `
+    SELECT * FROM ${category} WHERE name=$1
+    `,
+      [`${name}`]
+    )
+    .then(res => {
+      if (res.rowCount > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+const addMovie = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO movies (
+      item_id,
+      name,
+      director,
+      rating,
+      image,
+      actors,
+      description,
+      duration,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
+const addBook = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO books (
+      item_id,
+      name,
+      author,
+      pages,
+      image,
+      publication_year,
+      rating,
+      description,
+      is_active
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *;
+    `,
+    values
+  );
+};
+
+const addRestaurant = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO restaurants (
+      item_id,
+      name,
+      street,
+      city,
+      province,
+      post_code,
+      rating,
+      image,
+      price_range,
+      is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+  `,
+    values
+  );
+};
+
+const addProduct = function(values, db) {
+  return db.query(
+    `
+    INSERT INTO products (
+    item_id,
+    name,
+    link,
+
+    image,
+    description,
+    is_active
+    )
+    VALUES($1, $2, $3, $4, $5, $6)
+  `,
+    values
+  );
+};
 
 module.exports = {
   addUser,
@@ -100,5 +242,14 @@ module.exports = {
   getItemsToWatchById,
   getItemsToReadById,
   getItemsToBuyById,
-  getPlacesToEatById
+  getPlacesToEatById,
+  getMovieItemById,
+  getRestaurantItemById,
+  getBookItemById,
+  getProductItemById,
+  isDuplicateName,
+  addMovie,
+  addBook,
+  addRestaurant,
+  addProduct
 };

@@ -1,4 +1,4 @@
-INSERT INTO books (item_id, title, author, pages, image, publication_year, rating, description, is_active)
+INSERT INTO books (item_id, name, author, pages, image, publication_year, rating, description, is_active)
   VALUES
    (1, 'Harry Potter and the Cursed Child: Parts one and two', 'J.K. Rowling', 407, 'https://books.google.ca/books/content?id=cvRFvgAACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE700XSQS1ZqXallBsOWHaXkokc3yoofRtVYIbw-KpwqSMziAq5ICvRykORCFCvlqmcx9OpWCJ5YWnFgo8gTm1scjuF3GyeGS1kxzwVTrfvHnuZQ0Eu9d5S3ErQs8ObNz_8XCTJbr', '2016-01-01', 5, 'Based on an original new story by J.K. Rowling, John Tiffany, and Jack Thorne, a new play by Jack Thorne, Harry Potter and the Cursed Child is the eighth story in the Harry Potter series and the first official Harry Potter story to be presented...', TRUE),
 

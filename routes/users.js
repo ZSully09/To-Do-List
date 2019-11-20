@@ -9,7 +9,8 @@
 const express = require('express');
 const router = express.Router();
 const { addUser, getUserByEmail, getUserById, getItemsToWatchById,
-  getItemsToBuyById, getItemsToReadById, getPlacesToEatById } = require('../database');
+  getItemsToBuyById, getItemsToReadById, getPlacesToEatById, getMovieItemById,
+  getRestaurantItemById, getBookItemById, getProductItemById } = require('../database');
 const bcrypt = require('bcrypt');
 
 module.exports = db => {
@@ -23,41 +24,36 @@ module.exports = db => {
     new Promise((resolve, reject) => {
       getUserById(req.session.userId, db)
         .then(res => {
-          if (res.rows.length) {
-            const user = res.rows[0];
-            getItemsToWatchById(user.id, db)
-              .then(data => {
-                for (const item of data.rows) {
-                  userLists['movies'].push(item);
-                }
-              });
-            getItemsToReadById(user.id, db)
-              .then(data => {
-                for (const item of data.rows) {
-                  userLists['books'].push(item);
-                }
-              });
-            getPlacesToEatById(user.id, db)
-              .then(data => {
-                for (const item of data.rows) {
-                  userLists['restaurants'].push(item);
-                }
-                // console.log(userLists);
-              });
-            getItemsToBuyById(user.id, db)
-              .then(data => {
-                for (const item of data.rows) {
-                  userLists['products'].push(item);
-                }
-                resolve(userLists);
-              });
-          }
+          const user = res.rows[0];
+          getItemsToWatchById(user.id, db)
+            .then(data => {
+              for (const item of data.rows) {
+                userLists['movies'].push(item);
+              }
+              getItemsToReadById(user.id, db)
+                .then(data => {
+                  for (const item of data.rows) {
+                    userLists['books'].push(item);
+                  }
+                  getPlacesToEatById(user.id, db)
+                    .then(data => {
+                      for (const item of data.rows) {
+                        userLists['restaurants'].push(item);
+                      }
+                      getItemsToBuyById(user.id, db)
+                        .then(data => {
+                          for (const item of data.rows) {
+                            userLists['products'].push(item);
+                          }
+                          resolve(userLists);
+                        });
+                    });
+                });
+            });
         });
-    })
-      .then(data => {
-        // console.log(data);
-        res.json(data);
-      });
+    }).then(data => {
+      res.json(data);
+    });
   });
   router.get('/register', (req, res) => {
     if (req.session.userId) {
@@ -102,62 +98,80 @@ module.exports = db => {
     res.redirect('/');
   });
 
-  router.get('/watch', (req, res) => {
+  router.get('/watch/:id', (req, res) => {
+    //item id which is passed in url
+    const itemId = req.params.id;
     if (!req.session.userId) {
       res.render('login');
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
-        // console.log(user);
-        res.render('watch', {
-          userId: req.session.userId,
-          user: user.rows[0]
-        });
+        getMovieItemById(itemId, db)
+          .then(data => {
+            res.render('watch', {
+              userId: req.session.userId,
+              user: user.rows[0],
+              item: data.rows[0]
+            });
+          });
       });
     }
   });
 
-  router.get('/eat', (req, res) => {
+  router.get('/eat/:id', (req, res) => {
+    //item id which is passed in url
+    const itemId = req.params.id;
     if (!req.session.userId) {
       res.render('login');
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
-        // console.log(user);
-        res.render('eat', {
-          userId: req.session.userId,
-          user: user.rows[0]
-        });
+        getRestaurantItemById(itemId, db)
+          .then(data => {
+            res.render('eat', {
+              userId: req.session.userId,
+              user: user.rows[0],
+              item: data.rows[0]
+            });
+          });
       });
     }
   });
 
-  router.get('/read', (req, res) => {
+  router.get('/read/:id', (req, res) => {
+    const itemId = req.params.id;
     if (!req.session.userId) {
       res.render('login');
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
-        // console.log(user);
-        res.render('read', {
-          userId: req.session.userId,
-          user: user.rows[0]
-        });
+        getBookItemById(itemId, db)
+          .then(data => {
+            res.render('read', {
+              userId: req.session.userId,
+              user: user.rows[0],
+              item: data.rows[0]
+            });
+          });
       });
     }
   });
 
-  router.get('/buy', (req, res) => {
+  router.get('/buy/:id', (req, res) => {
+    const itemId = req.params.id;
     if (!req.session.userId) {
       res.render('login');
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
-        // console.log(user);
-        res.render('buy', {
-          userId: req.session.userId,
-          user: user.rows[0]
-        });
+        getProductItemById(itemId, db)
+          .then(data => {
+            res.render('buy', {
+              userId: req.session.userId,
+              user: user.rows[0],
+              item: data.rows[0]
+            });
+          });
       });
     }
   });
