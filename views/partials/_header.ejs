@@ -1,6 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="/urls">Smart To Do List</a>
+
+    <a class="navbar-brand" href="/">Smart To Do List</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -14,14 +15,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup"></div>
     <% if(userId) { %>
-    <form method="POST" action="/logout">
+
+    <form method="GET" action="/api/users/logout">
+
       <label for="username" style="font-size: 20px;color: white"
         >Logged in As: <%= user.email %></label
       >
       <input
         type="submit"
-        name="login"
-        value="logout"
+        name="logout"
+        value="Logout"
         style="background:transparent;color:white;border-radius: 5px;border-color:white;font-size: 20px"
       />
     </form>
