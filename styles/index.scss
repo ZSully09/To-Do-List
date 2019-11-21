@@ -25,7 +25,7 @@ header form {
   float: right;
   width: auto;
   margin-right: 50px;
-  margin-top: 25px;
+  margin-top: 27px;
   vertical-align: middle;
 }
 
@@ -107,6 +107,13 @@ body h1 {
   font-family: Scada, sans-serif;
   font-size: 20px;
   color: #1b2126;
+  text-align: center;
+}
+
+body main div.container div.container-header h1 {
+  position: fixed;
+  margin-bottom: 10px;
+  height: 30px;
 }
 
 body a {
@@ -149,7 +156,7 @@ p.commands .fa-ellipsis-v {
 // Changed to relative to fix responsiveness
 img {
   position: relative;
-  margin-top: 2px;
+  margin-top: 15px;
   margin-left: 2px;
   width: 50px;
   height: 50px;
@@ -169,7 +176,7 @@ form.search {
   left: 50%;
   transform: translate(-50%, -50%);
   // transition: all 1s;
-  width: 150px;
+  width: 300px;
   height: 50px;
   background: #1b2126;
   box-sizing: border-box;
@@ -208,7 +215,7 @@ input {
 }
 
 form.search:hover {
-  width: 200px;
+  width: 350px;
   cursor: pointer;
 }
 
@@ -225,4 +232,15 @@ a {
 }
 a:hover {
   color: black;
+}
+
+// LOGIN PAGE
+
+div.form-group div#oval-shadow {
+  height: 16px;
+  background: #dfdfdf;
+  border-radius: 100%;
+  margin-top: 24px;
+  width: 200px;
+  margin-left: 75px;
 }
