@@ -70,6 +70,17 @@ const createBooksItemElement = function (books) {
     .addClass('name')
     .text(books.name);
 
+  const $button = $('<button>')
+    .addClass('delete')
+    .text('Delete');
+  $($button.click(function () {
+    $.ajax({
+      url: `/api/users/delete/${books.item_id}`,
+      datatype: 'JSON',
+      method: 'POST',
+    });
+  }));
+
   const $nameLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/read/${books.item_id}`)
     .append($pName);
@@ -77,7 +88,8 @@ const createBooksItemElement = function (books) {
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
-    .append($nameLink);
+    .append($nameLink)
+    .append($button);
 
   return $divCard;
 };
@@ -202,4 +214,5 @@ const loadItems = function () {
 };
 $(document).ready(function () {
   loadItems();
+
 });

@@ -209,6 +209,9 @@ module.exports = db => {
       });
     }
   });
+  router.post('/delete/:id', (req, res) => {
+    
+  });
 
   return router;
 };

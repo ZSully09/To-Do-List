@@ -245,9 +245,6 @@ const changeCategory = function (item, newCategory) {
     [newCategory]
   );
 };
-const deletItem = function (itemId) {
-
-};
 
 module.exports = {
   addUser,
