@@ -81,7 +81,8 @@ module.exports = db => {
     getUserByEmail(user.email, db).then(data => {
       //check if user's email is not in db
       if (!data.rows[0]) {
-        res.json({ error: 'error' });
+        console.log(!data.rows[0]);
+        res.render('login', { error: 'The Email does not belong to any user!' });
       } else {
         //check if user's password is correct
         if (bcrypt.compareSync(user.password, data.rows[0].password)) {
