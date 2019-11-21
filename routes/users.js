@@ -78,9 +78,8 @@ module.exports = db => {
   });
 
   router.post('/change', (req, res) => {
-    console.log(req.body)
-    changeCategory(req.body.tableName, req.body.itemID, req.body.newTable, req.session.userId, db)
-    res.redirect('/')
+      changeCategory(req.body.tableName, req.body.itemID, req.body.newTable, req.session.userId, db)
+      res.redirect('/')
   });
   router.post('/login', (req, res) => {
     const user = req.body;

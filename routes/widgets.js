@@ -62,12 +62,22 @@ module.exports = (db) => {
       });
     const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
       .then(response => {
+        console.log(response.items[0])
+        let book = response.items[0]
+        console.log(help.isValidResponse(book.volumeInfo.author))
         // console.log(response)
         // takes title from API call and saves it to temp object to compare results
         if (response.totalItems > 0) {
 
-          bookData.name = response.items[0]['volumeInfo']['title'];
-          bookData.author = response.items[0]['volumeInfo']['authors'][0];
+          bookData.name = help.isValidResponse(book.volumeInfo.title);
+
+          if(book.volumeInfo.authors) {
+            bookData.author = book.volumeInfo.authors[0]
+          } else {
+            bookData.author = 'Not Availble'
+          };
+
+
           bookData.description = response.items[0]['volumeInfo']['description'];
           bookData.image = response.items[0]['volumeInfo']['imageLinks']['smallThumbnail'];
           bookData.rating = response.items[0]['volumeInfo']['averageRating'];
@@ -158,7 +168,6 @@ module.exports = (db) => {
         // console.log(values)
         // compares the results and returns the category that best fits the user input
         let dupArray = help.compareResults(values, name);
-        console.log(dupArray)
         let category = dupArray[0]
         isDuplicateName(dupArray[0], dupArray[1], req.session.userId, db)
         // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...

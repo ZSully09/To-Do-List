@@ -51,7 +51,7 @@ const createMovieItemElement = function (movies) {
       const currentCategory = 'movies';
       const item_id = movies.item_id;
       $.post('api/users/change/', { itemID: item_id, tableName : currentCategory, newTable: newCategory},
-        function() {
+        function(res) {
 
         });
       $('.card').remove();

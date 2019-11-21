@@ -40,7 +40,7 @@ module.exports = {
 
   compareResults : function(array, searchTerm) {
 
-    console.log(array, searchTerm)
+    // console.log(array, searchTerm)
     let dbTitle = "";
     let name = "";
     let answerArray = [];
@@ -77,6 +77,13 @@ module.exports = {
     name = movie;
     answerArray.push(dbTitle, name);
     return answerArray;
-  }
+  },
 
+  isValidResponse: function(res) {
+    if (res === undefined) {
+      return 'Not Available';
+    } else {
+      return res;
+    }
+  }
 };
