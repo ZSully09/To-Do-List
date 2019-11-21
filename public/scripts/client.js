@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const createItem = function(category, item) {
+const createItem = function (category, item) {
   const $img = $('<img>').attr('src', category.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
@@ -13,19 +13,60 @@ const createItem = function(category, item) {
   const $pName = $('<p>')
     .addClass('name')
     .text(category.name);
-  const markup = $(`<select id='${category.item_id}'>
-    <option value="default">Select</option>
-    <option value="movies">Movies</option>
-    <option value="books">Books</option>
-    <option value="restaurants">Restaurants</option>
-    <option value="products">Products</option>
-  </select>)`);
+
+  const $defaultOption = $('<option>')
+    .val('default')
+    .text('Select Option');
+  const $moviesOption = $('<option>')
+    .val('movies')
+    .text('Movies');
+
+  const $booksOption = $('<option>')
+    .val('books')
+    .text('Books');
+
+  const $restaurantsOption = $('<option>')
+    .val('restaurants')
+    .text('Restaurants');
+
+  const $productsOption = $('<option>')
+    .val('products')
+    .text('Products');
+
+  const $select = $('<select>');
+
+  if (item === 'movies') {
+    $select.attr('id', category.item_id)
+      .append()
+      .append(
+        [$defaultOption, $booksOption, $restaurantsOption, $productsOption]);
+
+  }
+  if (item === 'books') {
+    $select.attr('id', category.item_id)
+      .append(
+        [$defaultOption, $moviesOption, $restaurantsOption, $productsOption]);
+
+  }
+  if (item === 'restaurants') {
+    $select.attr('id', category.item_id)
+      .append(
+        [$defaultOption, $moviesOption, $booksOption, $productsOption]);
+
+  }
+  if (item === 'products') {
+    $select.attr('id', category.item_id)
+      .append(
+        [$defaultOption, $moviesOption, $booksOption, $restaurantsOption]);
+
+  }
+
 
   const $button = $('<button>')
     .addClass('delete')
     .text('Delete');
   $(
-    $button.on('click', function() {
+    $button.on('click', function () {
       $.ajax({
         url: `/api/users/delete/${item}/${category.item_id}`,
         datatype: 'JSON',
@@ -43,14 +84,19 @@ const createItem = function(category, item) {
     .addClass('commands')
     .html('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>');
 
+
+
+
+
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
     .append($commands)
     .append($nameLink)
     .append($button)
-    .append(markup)
-    .change(function() {
+    .append($select)
+
+    .change(function () {
       // currentCategory, item_id, user_id, newCategory
       let data = $(`#${category.item_id} option:selected`);
       console.log(data[0].value, item)
@@ -59,18 +105,20 @@ const createItem = function(category, item) {
       } else {
         const newCategory = data[0].value;
         const currentCategory = item;
-        const item_id = category.item_id;
-        $.post('api/users/change/', { itemID: item_id, tableName : currentCategory, newTable: newCategory},
-          function(res) {
-
-          });
-        loadItems();
+        $.ajax({
+          url: `api/users/change/${category.item_id}`,
+          data: { tableName: currentCategory, newTable: newCategory },
+          datatype: 'JSON',
+          method: 'POST'
+        }).done(() => {
+          loadItems();
+        });
       }
     });
   return $divCard;
 };
 
-const renderItems = function(obj) {
+const renderItems = function (obj) {
   for (const item in obj) {
     obj[item].forEach(element => {
       $(`.${item}`).append(createItem(element, item));
@@ -78,7 +126,7 @@ const renderItems = function(obj) {
   }
 };
 
-const loadItems = function() {
+const loadItems = function () {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -91,6 +139,6 @@ const loadItems = function() {
     }
   });
 };
-$(document).ready(function() {
+$(document).ready(function () {
   loadItems();
 });
