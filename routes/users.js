@@ -108,11 +108,19 @@ module.exports = db => {
         // Displays email in header
         getMovieItemById(itemId, db)
           .then(data => {
-            res.render('watch', {
-              userId: req.session.userId,
-              user: user.rows[0],
-              item: data.rows[0]
-            });
+            if (data.rows[0]) {
+              if (data.rows[0].user_id === req.session.userId) {
+                res.render('watch', {
+                  userId: req.session.userId,
+                  user: user.rows[0],
+                  item: data.rows[0]
+                });
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            } else {
+              res.send('The Item does not belong to the user!');
+            }
           });
       });
     }
@@ -128,18 +136,26 @@ module.exports = db => {
         // Displays email in header
         getRestaurantItemById(itemId, db)
           .then(data => {
-            res.render('eat', {
-              userId: req.session.userId,
-              user: user.rows[0],
-              item: data.rows[0]
-            });
+            if (data.rows[0]) {
+              if (data.rows[0].user_id === req.session.userId) {
+                res.render('eat', {
+                  userId: req.session.userId,
+                  user: user.rows[0],
+                  item: data.rows[0]
+                });
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            } else {
+              res.send('The Item does not belong to the user!');
+            }
           });
       });
     }
   });
 
   router.get('/read/:id', (req, res) => {
-    const itemId = Number(req.params.id);
+    const itemId = req.params.id;
     if (!req.session.userId) {
       res.render('login');
     } else {
@@ -148,11 +164,15 @@ module.exports = db => {
         getBookItemById(itemId, db)
           .then(data => {
             if (data.rows[0]) {
-              res.render('read', {
-                userId: req.session.userId,
-                user: user.rows[0],
-                item: data.rows[0]
-              });
+              if (data.rows[0].user_id === req.session.userId) {
+                res.render('read', {
+                  userId: req.session.userId,
+                  user: user.rows[0],
+                  item: data.rows[0]
+                });
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
             } else {
               res.send('The Item does not belong to the user!');
             }
@@ -168,14 +188,23 @@ module.exports = db => {
       res.render('login');
     } else {
       getUserById(req.session.userId, db).then(user => {
+
         // Displays email in header
         getProductItemById(itemId, db)
           .then(data => {
-            res.render('buy', {
-              userId: req.session.userId,
-              user: user.rows[0],
-              item: data.rows[0]
-            });
+            if (data.rows[0]) {
+              if (data.rows[0].user_id === req.session.userId) {
+                res.render('buy', {
+                  userId: req.session.userId,
+                  user: user.rows[0],
+                  item: data.rows[0]
+                });
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            } else {
+              res.send('The Item does not belong to the user!');
+            }
           });
       });
     }
