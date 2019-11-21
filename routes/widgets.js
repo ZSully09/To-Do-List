@@ -8,6 +8,7 @@
 require('dotenv').config();
 const GAPI = process.env.GAPI_KEY;
 const MAPI = process.env.MOVIE_KEY;
+const CUSTOM = process.env.CUSTOM_ID
 const express = require('express');
 const router = express.Router();
 const help = require('../public/scripts/app');
@@ -52,6 +53,7 @@ module.exports = (db) => {
           movieData.boxOffice = response['BoxOffice'];
           movieData.actors = response['Actors']
           movieData.description = response['Plot']
+          movieData.duration = response['Runtime']
         }
         return movieData;
       })
@@ -78,8 +80,9 @@ module.exports = (db) => {
         res.send(error);
       });
 
-    const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + '&cx=015636378830428160186:o52uathqmlb&q=' + name)
+    const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + CUSTOM + name)
       .then(response => {
+        console.log(response)
         // product results are not giving very good responses...
 
         productData.name = response.items[0]['title'];
@@ -177,29 +180,29 @@ module.exports = (db) => {
                     // if the category is movies then insert the item and associated data in movies table
                     // note the empty object is only there because by default the category is set to movies
                     // if it is {}, then we want it to not insert anything into the table
-                addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
+                addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
                 addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
                 addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
               } else if (category === 'books' && values[3] !== {}) {
                 console.log('books, correct')
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, true], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
 
               } else if (category === 'products' && values[2] !== {}) {
                 console.log('products')
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, false], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, true], db)
               } else if (category === 'restaurants' && values[0] !== {}) {
                 console.log('restaurants')
                 // console.log(values[3])
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, parseInt(values[1].rating), values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
                   addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, parseInt(values[0].rating), values[0].image, values[0].price, true], db)
+                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, true], db)
                   addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
               }
             });
