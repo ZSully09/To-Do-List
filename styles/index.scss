@@ -9,7 +9,7 @@ header.header {
   margin-bottom: 30px;
 }
 
-header div.link a {
+header a {
   font-size: 36px;
   float: left;
   margin-left: 20px;
@@ -19,12 +19,21 @@ header div.link a {
   text-decoration: none;
 }
 
-header div.logout form {
-  font-size: 24px;
+header form {
+  font-size: 18px;
   float: right;
   width: auto;
   margin-right: 20px;
   margin-top: 20px;
+}
+
+header form button {
+  background-color: #1b2126;
+  color: #ffffff;
+  border: solid 1px;
+  border-color: #ffffff;
+  border-radius: 10px;
+  font-size: 24px;
 }
 
 // BODY
@@ -89,12 +98,13 @@ div.container {
   opacity: 1;
 }
 
-h1 {
+body h1 {
   position: relative;
   margin-top: 10px;
   margin-left: 5px;
   font-family: Scada, sans-serif;
   font-size: 20px;
+  color: #1b2126;
 }
 
 h1 a {
@@ -145,7 +155,7 @@ form.search {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: all 1s;
+  // transition: all 1s;
   width: 150px;
   height: 50px;
   background: #1b2126;
@@ -182,7 +192,6 @@ input {
   color: white;
   text-align: center;
   font-size: 1.2em;
-  // transition: all 1s;
 }
 
 form.search:hover {
