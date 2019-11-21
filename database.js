@@ -241,9 +241,24 @@ const addProduct = function (values, db) {
 const changeCategory = function (item, newCategory) {
   return db.query(
     `
+    UPDATE ${newCategory}
+    SET is_active = TRUE
+    FROM users
+    WHERE item_id=$1 AND users.id=$2
     `,
-    [newCategory]
-  );
+    [item_id, user_id]
+  )
+    .then(() => {
+      return db.query(
+        `
+        UPDATE ${currentCategory}
+        SET is_active = FALSE
+        FROM users
+        WHERE item_id=$1 AND users.id=$2
+        `,
+        [item_id, user_id]
+      );
+    });
 };
 const deletItem = function (itemId) {
 
@@ -266,4 +281,5 @@ module.exports = {
   addBook,
   addRestaurant,
   addProduct,
+  changeCategory
 };
