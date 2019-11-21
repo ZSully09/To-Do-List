@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const createItem = function (category,item) {
+const createItem = function(category, item) {
   const $img = $('<img>').attr('src', category.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
@@ -17,14 +17,16 @@ const createItem = function (category,item) {
   const $button = $('<button>')
     .addClass('delete')
     .text('Delete');
-  $($button.on('click', function () {
-    $.ajax({
-      url: `/api/users/delete/${item}/${category.item_id}`,
-      datatype: 'JSON',
-      method: 'POST',
-    });
-    loadItems();
-  }));
+  $(
+    $button.on('click', function() {
+      $.ajax({
+        url: `/api/users/delete/${item}/${category.item_id}`,
+        datatype: 'JSON',
+        method: 'POST'
+      });
+      loadItems();
+    })
+  );
 
   const $nameLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
@@ -37,17 +39,17 @@ const createItem = function (category,item) {
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
+    .append($commands)
     .append($nameLink)
     .append($button);
 
   return $divCard;
-
 };
 
 const renderItems = function(obj) {
   for (const item in obj) {
     obj[item].forEach(element => {
-      $(`.${item}`).append(createItem(element,item));
+      $(`.${item}`).append(createItem(element, item));
     });
   }
 };
@@ -67,5 +69,4 @@ const loadItems = function() {
 };
 $(document).ready(function() {
   loadItems();
-
 });
