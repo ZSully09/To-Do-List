@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { addUser, getUserByEmail, getUserById, getItemsToWatchById,
+const { changeCategory, addUser, getUserByEmail, getUserById, getItemsToWatchById,
   getItemsToBuyById, getItemsToReadById, getPlacesToEatById, getMovieItemById,
   getRestaurantItemById, getBookItemById, getProductItemById, deleteItem } = require('../database');
 const bcrypt = require('bcrypt');
@@ -75,6 +75,11 @@ module.exports = db => {
         res.send('Already registerd!');
       }
     });
+  });
+
+  router.post('/change', (req, res) => {
+      changeCategory(req.body.tableName, req.body.itemID, req.body.newTable, req.session.userId, db)
+      res.redirect('/')
   });
   router.post('/login', (req, res) => {
     const user = req.body;

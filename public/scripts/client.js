@@ -13,6 +13,13 @@ const createItem = function(category, item) {
   const $pName = $('<p>')
     .addClass('name')
     .text(category.name);
+  const markup = $(`<select id='${category.item_id}'>
+    <option value="default">Select</option>
+    <option value="movies">Movies</option>
+    <option value="books">Books</option>
+    <option value="restaurants">Restaurants</option>
+    <option value="products">Products</option>
+  </select>)`);
 
   const $button = $('<button>')
     .addClass('delete')
@@ -41,8 +48,25 @@ const createItem = function(category, item) {
     .append($divImg)
     .append($commands)
     .append($nameLink)
-    .append($button);
+    .append($button)
+    .append(markup)
+    .change(function() {
+      // currentCategory, item_id, user_id, newCategory
+      let data = $(`#${category.item_id} option:selected`);
+      console.log(data[0].value, item)
+      if (data[0].value === item) {
+        alert('Already in selected category');
+      } else {
+        const newCategory = data[0].value;
+        const currentCategory = item;
+        const item_id = category.item_id;
+        $.post('api/users/change/', { itemID: item_id, tableName : currentCategory, newTable: newCategory},
+          function(res) {
 
+          });
+        loadItems();
+      }
+    });
   return $divCard;
 };
 

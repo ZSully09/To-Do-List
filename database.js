@@ -238,26 +238,41 @@ const addProduct = function (values, db) {
   );
 };
 
-const changeCategory = function (item, newCategory) {
+const changeCategory = function (currentCategory, item_id, newCategory, user_id, db) {
   return db.query(
     `
-    UPDATE ${newCategory}
-    SET is_active = TRUE
-    FROM users
-    WHERE item_id=$1 AND users.id=$2
-    `,
-    [item_id, user_id]
+    SELECT name FROM ${newCategory}
+    WHERE item_id =${item_id}
+    `
   )
-    .then(() => {
-      return db.query(
-        `
-        UPDATE ${currentCategory}
-        SET is_active = FALSE
+    .then(res => {
+      if (res.rows[0].name.length > 0) {
+        return db.query(
+          `
+        UPDATE ${newCategory}
+        SET is_active = TRUE
         FROM users
         WHERE item_id=$1 AND users.id=$2
         `,
-        [item_id, user_id]
-      );
+          [item_id, user_id]
+        )
+          .then(() => {
+            return db.query(
+              `
+              UPDATE ${currentCategory}
+              SET is_active = FALSE
+              FROM users
+              WHERE item_id=$1 AND users.id=$2
+              `,
+              [item_id, user_id]
+            );
+          })
+      } else {
+        return "this an error";
+      }
+    })
+    .catch(error => {
+      return error.message;
     });
 };
 const deleteItem = function (itemId, category, db) {

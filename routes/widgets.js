@@ -62,12 +62,22 @@ module.exports = (db) => {
       });
     const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
       .then(response => {
+        console.log(response.items[0])
+        let book = response.items[0]
+        console.log(help.isValidResponse(book.volumeInfo.author))
         // console.log(response)
         // takes title from API call and saves it to temp object to compare results
         if (response.totalItems > 0) {
 
-          bookData.name = response.items[0]['volumeInfo']['title'];
-          bookData.author = response.items[0]['volumeInfo']['authors'][0];
+          bookData.name = help.isValidResponse(book.volumeInfo.title);
+
+          if(book.volumeInfo.authors) {
+            bookData.author = book.volumeInfo.authors[0]
+          } else {
+            bookData.author = 'Not Availble'
+          };
+
+
           bookData.description = response.items[0]['volumeInfo']['description'];
           bookData.image = response.items[0]['volumeInfo']['imageLinks']['smallThumbnail'];
           bookData.rating = response.items[0]['volumeInfo']['averageRating'];
@@ -80,20 +90,20 @@ module.exports = (db) => {
         res.send(error);
       });
 
-    const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + CUSTOM + name)
-      .then(response => {
-        console.log(response)
-        // product results are not giving very good responses...
+    // const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + CUSTOM + name)
+    //   .then(response => {
+    //     console.log(response)
+    //     // product results are not giving very good responses...
 
-        productData.name = response.items[0]['title'];
-        productData.image = response.items[0]['pagemap']['cse_thumbnail'][0]['src'];
-        productData.link = response.items[0].link;
-        productData.description = response.items[0]['snippet']
-        return productData;
-      })
-      .catch(error => {
-        res.send(error);
-      });
+    //     productData.name = response.items[0]['title'];
+    //     productData.image = response.items[0]['pagemap']['cse_thumbnail'][0]['src'];
+    //     productData.link = response.items[0].link;
+    //     productData.description = response.items[0]['snippet']
+    //     return productData;
+    //   })
+    //   .catch(error => {
+    //     res.send(error);
+    //   });
     const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
       .then(response => {
         // console.log(response)
@@ -134,12 +144,14 @@ module.exports = (db) => {
       poster: 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg',
       rating: '8.8',
       boxOffice: '$314,000,000' };
+      */
     const productPromise = {
       name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
       image: 'https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL.jpg',
       link: 'http://www.amazon.ca/dp/0007581149/ref=tsm_1_fb_lk',
       description: `Four-volume boxed-set edition of The Lord of the Rings in hardback, featuring \nTolkien's original unused dust-jacket designs, together with fourth hardback ...`
     };
+    /*
     const bookPromise = { name: 'The Fellowship of the Ring',
       author: 'John Ronald Reuel Tolkien',
       description: 'Continuing the story begun in The Hobbit, this is the first part of Tolkien s epic masterpiece, The Lord of the Rings, featuring an exclusive cover image from the film, the definitive text, and a detailed map of Middle-earth. Sauron, the Dark Lord, has gathered to him all the Rings of Power the means by which he intends to rule Middle-earth. All he lacks in his plans for dominion is the One Ring the ring that rules them all which has fallen into the hands of the hobbit, Bilbo Baggins. In a sleepy village in the Shire, young Frodo Baggins finds himself faced with an immense task, as his elderly cousin Bilbo entrusts the Ring to his care. Frodo must leave his home and make a perilous journey across Middle-earth to the Cracks of Doom, there to destroy the Ring and foil the Dark Lord in his evil purpose. To celebrate the release of the first of Peter Jackson s two-part film adaptation of The Hobbit, THE HOBBIT: AN UNEXPECTED JOURNEY, this first part of The Lord of the Rings is available for a limited time with an exclusive cover image from Peter Jackson s award-winning trilogy."',
@@ -156,7 +168,6 @@ module.exports = (db) => {
         // console.log(values)
         // compares the results and returns the category that best fits the user input
         let dupArray = help.compareResults(values, name);
-        console.log(dupArray)
         let category = dupArray[0]
         isDuplicateName(dupArray[0], dupArray[1], req.session.userId, db)
         // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...
