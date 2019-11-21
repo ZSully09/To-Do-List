@@ -7,7 +7,7 @@ CREATE TABLE movies
     name VARCHAR(255) NOT NULL,
     director VARCHAR(255) NOT NULL,
     actors VARCHAR(500) NOT NULL,
-    rating SMALLINT NOT NULL DEFAULT 0,
+    rating VARCHAR(255) DEFAULT 'None',
     image VARCHAR(500),
     duration VARCHAR(255),
     description TEXT,

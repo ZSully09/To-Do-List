@@ -9,7 +9,7 @@ CREATE TABLE restaurants
     city VARCHAR(255) NOT NULL,
     province VARCHAR(255) NOT NULL,
     post_code VARCHAR(255) NOT NULL,
-    rating SMALLINT NOT NULL DEFAULT 0,
+    rating VARCHAR(255) DEFAULT 'none',
     -- hours_of_operation VARCHAR(500),
     image VARCHAR(500),
     price_range VARCHAR(255),
