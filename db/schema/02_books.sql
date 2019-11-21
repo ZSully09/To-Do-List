@@ -10,7 +10,7 @@ CREATE TABLE books
     pages SMALLINT,
     image VARCHAR(500),
     publication_year VARCHAR(255),
-    rating SMALLINT NOT NULL DEFAULT 0,
+    rating VARCHAR(255) DEFAULT 'None',
     description TEXT,
     is_active BOOLEAN NOT NULL DEFAULT FALSE
   );
