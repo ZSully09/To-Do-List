@@ -2,7 +2,7 @@
 //database functions
 const bcrypt = require('bcrypt');
 
-const addUser = function(user, db) {
+const addUser = function (user, db) {
   return db
     .query(
       `
@@ -16,7 +16,7 @@ const addUser = function(user, db) {
       }
     });
 };
-const getUserByEmail = function(email, db) {
+const getUserByEmail = function (email, db) {
   return db.query(
     `
   SELECT * FROM users WHERE email=$1`,
@@ -25,7 +25,7 @@ const getUserByEmail = function(email, db) {
 };
 
 // Get User by Id used to show a users email in the header.
-const getUserById = function(id, db) {
+const getUserById = function (id, db) {
   return db.query(
     `
   SELECT * FROM users WHERE id=$1`,
@@ -33,7 +33,7 @@ const getUserById = function(id, db) {
   );
 };
 
-const getItemsToWatchById = function(user_id, db) {
+const getItemsToWatchById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM movies
@@ -48,7 +48,7 @@ const getItemsToWatchById = function(user_id, db) {
   );
 };
 
-const getItemsToReadById = function(user_id, db) {
+const getItemsToReadById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM books
@@ -63,7 +63,7 @@ const getItemsToReadById = function(user_id, db) {
   );
 };
 
-const getItemsToBuyById = function(user_id, db) {
+const getItemsToBuyById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM products
@@ -78,7 +78,7 @@ const getItemsToBuyById = function(user_id, db) {
   );
 };
 
-const getPlacesToEatById = function(user_id, db) {
+const getPlacesToEatById = function (user_id, db) {
   return db.query(
     `
     SELECT * FROM restaurants
@@ -92,7 +92,7 @@ const getPlacesToEatById = function(user_id, db) {
     [`${user_id}`]
   );
 };
-const getMovieItemById = function(item_id, db) {
+const getMovieItemById = function (item_id, db) {
   return db.query(
     `
     SELECT * FROM items
@@ -103,7 +103,7 @@ const getMovieItemById = function(item_id, db) {
     [`${item_id}`]
   );
 };
-const getRestaurantItemById = function(item_id, db) {
+const getRestaurantItemById = function (item_id, db) {
   return db.query(
     `
     SELECT * FROM items
@@ -114,7 +114,7 @@ const getRestaurantItemById = function(item_id, db) {
     [`${item_id}`]
   );
 };
-const getBookItemById = function(item_id, db) {
+const getBookItemById = function (item_id, db) {
   return db.query(
     `
     SELECT * FROM items
@@ -125,7 +125,7 @@ const getBookItemById = function(item_id, db) {
     [`${item_id}`]
   );
 };
-const getProductItemById = function(item_id, db) {
+const getProductItemById = function (item_id, db) {
   return db.query(
     `
     SELECT * FROM items
@@ -137,7 +137,7 @@ const getProductItemById = function(item_id, db) {
   );
 };
 
-const isDuplicateName = function(category, name, db) {
+const isDuplicateName = function (category, name, db) {
   return db
     .query(
       `
@@ -154,7 +154,7 @@ const isDuplicateName = function(category, name, db) {
     });
 };
 
-const addMovie = function(values, db) {
+const addMovie = function (values, db) {
   return db.query(
     `
     INSERT INTO movies (
@@ -175,7 +175,7 @@ const addMovie = function(values, db) {
   );
 };
 
-const addBook = function(values, db) {
+const addBook = function (values, db) {
   return db.query(
     `
     INSERT INTO books (
@@ -196,7 +196,7 @@ const addBook = function(values, db) {
   );
 };
 
-const addRestaurant = function(values, db) {
+const addRestaurant = function (values, db) {
   return db.query(
     `
     INSERT INTO restaurants (
@@ -217,7 +217,7 @@ const addRestaurant = function(values, db) {
   );
 };
 
-const addProduct = function(values, db) {
+const addProduct = function (values, db) {
   return db.query(
     `
     INSERT INTO products (
@@ -251,5 +251,5 @@ module.exports = {
   addMovie,
   addBook,
   addRestaurant,
-  addProduct
+  addProduct,
 };

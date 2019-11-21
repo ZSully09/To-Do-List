@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const createMovieItemElement = function(movies) {
+const createMovieItemElement = function (movies) {
   const markup = `<a href='http://localhost:8080/api/users/watch/${movies.item_id}'><section class="card movie">
   <div class="img-div">
     <img
@@ -13,7 +13,7 @@ const createMovieItemElement = function(movies) {
 
   return markup;
 };
-const createBooksItemElement = function(books) {
+const createBooksItemElement = function (books) {
   const markup = `<a href='http://localhost:8080/api/users/read/${books.item_id}'> <section class="card book">
   <div class="img-div">
     <img
@@ -28,8 +28,7 @@ const createBooksItemElement = function(books) {
 
   return markup;
 };
-const createRestaurantsItemElement = function(restaurant) {
-  console.log(restaurant);
+const createRestaurantsItemElement = function (restaurant) {
   const markup = `<a href='http://localhost:8080/api/users/eat/${restaurant.item_id}'<section class="card restaurant">
   <div class="img-div">
     <img
@@ -43,7 +42,7 @@ const createRestaurantsItemElement = function(restaurant) {
 
   return markup;
 };
-const createProductsItemElement = function(product) {
+const createProductsItemElement = function (product) {
   const markup = `<a href='http://localhost:8080/api/users/buy/${product.item_id}' <section class="card product" >
   <div class="img-div">
     <img
@@ -57,7 +56,7 @@ const createProductsItemElement = function(product) {
 
   return markup;
 };
-const renderItems = function(obj) {
+const renderItems = function (obj) {
   for (const item in obj) {
     if (item === 'movies') {
       obj[item].forEach(element => {
@@ -79,7 +78,7 @@ const renderItems = function(obj) {
   }
 };
 
-const loadItems = function() {
+const loadItems = function () {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -91,6 +90,6 @@ const loadItems = function() {
     }
   });
 };
-$(document).ready(function() {
+$(document).ready(function () {
   loadItems();
 });
