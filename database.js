@@ -260,6 +260,13 @@ const changeCategory = function (item, newCategory) {
       );
     });
 };
+const deleteItem = function (itemId, category, db) {
+
+  db.query(`
+DELETE FROM ${category}
+WHERE item_id = ${itemId};
+  `);
+};
 
 module.exports = {
   addUser,
@@ -278,5 +285,6 @@ module.exports = {
   addBook,
   addRestaurant,
   addProduct,
-  changeCategory
+  changeCategory,
+  deleteItem
 };

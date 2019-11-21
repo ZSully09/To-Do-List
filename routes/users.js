@@ -10,7 +10,7 @@ const express = require('express');
 const router = express.Router();
 const { addUser, getUserByEmail, getUserById, getItemsToWatchById,
   getItemsToBuyById, getItemsToReadById, getPlacesToEatById, getMovieItemById,
-  getRestaurantItemById, getBookItemById, getProductItemById } = require('../database');
+  getRestaurantItemById, getBookItemById, getProductItemById, deleteItem } = require('../database');
 const bcrypt = require('bcrypt');
 
 module.exports = db => {
@@ -98,7 +98,7 @@ module.exports = db => {
     res.redirect('/');
   });
 
-  router.get('/watch/:id', (req, res) => {
+  router.get('/:category/:id', (req, res) => {
     //item id which is passed in url
     const itemId = req.params.id;
     if (!req.session.userId) {
@@ -106,111 +106,82 @@ module.exports = db => {
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
-        getMovieItemById(itemId, db)
-          .then(data => {
-            if (data.rows[0]) {
-              if (data.rows[0].user_id === req.session.userId) {
-                res.render('watch', {
-                  userId: req.session.userId,
-                  user: user.rows[0],
-                  item: data.rows[0]
-                });
+        if (req.params.category === 'movies') {
+          getMovieItemById(itemId, db)
+            .then(data => {
+              if (data.rows[0]) {
+                if (data.rows[0].user_id === req.session.userId) {
+                  res.render('watch', {
+                    userId: req.session.userId,
+                    user: user.rows[0],
+                    item: data.rows[0]
+                  });
+                } else {
+                  res.send('The Item does not belong to the user!');
+                }
               } else {
                 res.send('The Item does not belong to the user!');
               }
-            } else {
-              res.send('The Item does not belong to the user!');
-            }
-          });
+            });
+        } else if (req.params.category === 'books') {
+          getBookItemById(itemId, db)
+            .then(data => {
+              if (data.rows[0]) {
+                if (data.rows[0].user_id === req.session.userId) {
+                  res.render('read', {
+                    userId: req.session.userId,
+                    user: user.rows[0],
+                    item: data.rows[0]
+                  });
+                } else {
+                  res.send('The Item does not belong to the user!');
+                }
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            });
+        } else if (req.params.category === 'restaurants') {
+          getRestaurantItemById(itemId, db)
+            .then(data => {
+              if (data.rows[0]) {
+                if (data.rows[0].user_id === req.session.userId) {
+                  res.render('eat', {
+                    userId: req.session.userId,
+                    user: user.rows[0],
+                    item: data.rows[0]
+                  });
+                } else {
+                  res.send('The Item does not belong to the user!');
+                }
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            });
+        } else if (req.params.category === 'products') {
+          getProductItemById(itemId, db)
+            .then(data => {
+              if (data.rows[0]) {
+                if (data.rows[0].user_id === req.session.userId) {
+                  res.render('buy', {
+                    userId: req.session.userId,
+                    user: user.rows[0],
+                    item: data.rows[0]
+                  });
+                } else {
+                  res.send('The Item does not belong to the user!');
+                }
+              } else {
+                res.send('The Item does not belong to the user!');
+              }
+            });
+        }
       });
     }
   });
 
-  router.get('/eat/:id', (req, res) => {
-    //item id which is passed in url
-    const itemId = req.params.id;
-    if (!req.session.userId) {
-      res.render('login');
-    } else {
-      getUserById(req.session.userId, db).then(user => {
-        // Displays email in header
-        getRestaurantItemById(itemId, db)
-          .then(data => {
-            if (data.rows[0]) {
-              if (data.rows[0].user_id === req.session.userId) {
-                res.render('eat', {
-                  userId: req.session.userId,
-                  user: user.rows[0],
-                  item: data.rows[0]
-                });
-              } else {
-                res.send('The Item does not belong to the user!');
-              }
-            } else {
-              res.send('The Item does not belong to the user!');
-            }
-          });
-      });
-    }
-  });
-
-  router.get('/read/:id', (req, res) => {
-    const itemId = req.params.id;
-    if (!req.session.userId) {
-      res.render('login');
-    } else {
-      getUserById(req.session.userId, db).then(user => {
-        // Displays email in header
-        getBookItemById(itemId, db)
-          .then(data => {
-            if (data.rows[0]) {
-              if (data.rows[0].user_id === req.session.userId) {
-                res.render('read', {
-                  userId: req.session.userId,
-                  user: user.rows[0],
-                  item: data.rows[0]
-                });
-              } else {
-                res.send('The Item does not belong to the user!');
-              }
-            } else {
-              res.send('The Item does not belong to the user!');
-            }
-          });
-      });
-
-    }
-  });
-
-  router.get('/buy/:id', (req, res) => {
-    const itemId = req.params.id;
-    if (!req.session.userId) {
-      res.render('login');
-    } else {
-      getUserById(req.session.userId, db).then(user => {
-
-        // Displays email in header
-        getProductItemById(itemId, db)
-          .then(data => {
-            if (data.rows[0]) {
-              if (data.rows[0].user_id === req.session.userId) {
-                res.render('buy', {
-                  userId: req.session.userId,
-                  user: user.rows[0],
-                  item: data.rows[0]
-                });
-              } else {
-                res.send('The Item does not belong to the user!');
-              }
-            } else {
-              res.send('The Item does not belong to the user!');
-            }
-          });
-      });
-    }
-  });
-  router.post('/delete/:id', (req, res) => {
-    
+  router.post('/delete/:category/:id', (req, res) => {
+    deleteItem(req.params.id, req.params.category, db);
+    res.redirect('/');
   });
 
   return router;
