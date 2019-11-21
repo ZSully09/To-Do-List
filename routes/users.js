@@ -139,7 +139,7 @@ module.exports = db => {
   });
 
   router.get('/read/:id', (req, res) => {
-    const itemId = req.params.id;
+    const itemId = Number(req.params.id);
     if (!req.session.userId) {
       res.render('login');
     } else {
@@ -147,13 +147,18 @@ module.exports = db => {
         // Displays email in header
         getBookItemById(itemId, db)
           .then(data => {
-            res.render('read', {
-              userId: req.session.userId,
-              user: user.rows[0],
-              item: data.rows[0]
-            });
+            if (data.rows[0]) {
+              res.render('read', {
+                userId: req.session.userId,
+                user: user.rows[0],
+                item: data.rows[0]
+              });
+            } else {
+              res.send('The Item does not belong to the user!');
+            }
           });
       });
+
     }
   });
 

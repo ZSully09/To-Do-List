@@ -14,7 +14,7 @@
 //   return markup;
 // };
 
-const createMovieItemElement = function(movies) {
+const createMovieItemElement = function (movies) {
   const $img = $('<img>').attr('src', movies.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/watch/${movies.item_id}`)
@@ -56,7 +56,7 @@ const createMovieItemElement = function(movies) {
 //   return markup;
 // };
 
-const createBooksItemElement = function(books) {
+const createBooksItemElement = function (books) {
   const $img = $('<img>').attr('src', books.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/read/${books.item_id}`)
@@ -98,7 +98,7 @@ const createBooksItemElement = function(books) {
 //   return markup;
 // };
 
-const createRestaurantsItemElement = function(restaurant) {
+const createRestaurantsItemElement = function (restaurant) {
   const $img = $('<img>').attr('src', restaurant.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/eat/${restaurant.item_id}`)
@@ -140,7 +140,7 @@ const createRestaurantsItemElement = function(restaurant) {
 // };
 // .$("a[href$='http://localhost:8080/api/users/buy/${product.item_id}']");
 
-const createProductsItemElement = function(product) {
+const createProductsItemElement = function (product) {
   const $img = $('<img>').attr('src', product.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/buy/${product.item_id}`)
@@ -166,7 +166,7 @@ const createProductsItemElement = function(product) {
   return $divCard;
 };
 
-const renderItems = function(obj) {
+const renderItems = function (obj) {
   for (const item in obj) {
     if (item === 'movies') {
       obj[item].forEach(element => {
@@ -188,7 +188,7 @@ const renderItems = function(obj) {
   }
 };
 
-const loadItems = function() {
+const loadItems = function () {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -200,6 +200,6 @@ const loadItems = function() {
     }
   });
 };
-$(document).ready(function() {
+$(document).ready(function () {
   loadItems();
 });
