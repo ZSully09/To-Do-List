@@ -21,24 +21,39 @@
     />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/item-pages.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/client.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-
-    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
     <% include partials/_header.ejs %>
-    <h1 class="title"><%= item.title %></h1>
-    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.title %>" />
-    <h4 class="rating">Rating: <%= item.rating %>/10</h4>
-    <h4 class="actor">Actors: <%= item.actors %></h4>
-    <h4 class="director">Director: <%= item.director %></h4>
-    <p class="description">Description: <%= item.description %></p>
-    <h4 class="duration">Duration: <%= item.duration %></h4>
+    <div class="home">
+        <a href="http://localhost:8080" class="home">< < <</a>
+    </div>
+    <main>
+      <div class="item">
+        <h1 class="name"><%= item.name %></h1>
+        <div class="response">
+        <div class="image">
+        <img
+          class="thumbn-image"
+          src="<%= item.image %>"
+          alt="<%= item.title %>"
+        />
+      </div>
+        <div class="data">
+        <p class="data"><b>Rating:</b> <%= item.rating %>/10 </br></br>
+                        <b>Actors:</b> <%= item.actors %> </br></br>
+                        <b>Director:</b> <%= item.director %></br></br>
+                        <b>Description:</b> <%= item.description %></br></br>
+                        <b>Duration:</b> <%= item.duration %></p>
+      </div>
+    </div>
+    </div>
+    </main>
   </body>
 </html>
