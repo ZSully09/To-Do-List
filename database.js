@@ -275,8 +275,12 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
       return error.message;
     });
 };
-const deletItem = function (itemId) {
+const deleteItem = function (itemId, category, db) {
 
+  db.query(`
+DELETE FROM ${category}
+WHERE item_id = ${itemId};
+  `);
 };
 
 module.exports = {
@@ -296,5 +300,6 @@ module.exports = {
   addBook,
   addRestaurant,
   addProduct,
-  changeCategory
+  changeCategory,
+  deleteItem
 };
