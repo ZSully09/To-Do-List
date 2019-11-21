@@ -77,8 +77,13 @@ module.exports = db => {
     });
   });
 
-  router.post('/change', (req, res) => {
-      changeCategory(req.body.tableName, req.body.itemID, req.body.newTable, req.session.userId, db)
+  router.post('/change/:itemID', (req, res) => {
+    console.log(req.params)
+    console.log(req.body)
+      changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
+      .then(() => {
+      res.redirect('/')
+      })
       res.redirect('/')
   });
   router.post('/login', (req, res) => {
