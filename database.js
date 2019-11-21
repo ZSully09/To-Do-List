@@ -238,7 +238,7 @@ const addProduct = function (values, db) {
   );
 };
 
-const changeCategory = function (item, newCategory) {
+const changeCategory = function (currentCategory, item_id, newCategory, user_id, db) {
   return db.query(
     `
     UPDATE ${newCategory}

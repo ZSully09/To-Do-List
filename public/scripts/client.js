@@ -27,6 +27,12 @@ const createMovieItemElement = function (movies) {
   const $pName = $('<p>')
     .addClass('name')
     .text(movies.name);
+  const markup = $(`<select id='${movies.item_id}'>
+    <option value="default">Change Category</option>
+    <option value="books">Book</option>
+    <option value="products">Product</option>
+    <option value="restaurants">Restaurant</option>
+  </select>)`);
 
   const $nameLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/watch/${movies.item_id}`)
@@ -35,7 +41,27 @@ const createMovieItemElement = function (movies) {
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
-    .append($nameLink);
+    .append($nameLink)
+    .append(markup)
+    .change(function() {
+      console.log(movies.item_id);
+      // currentCategory, item_id, user_id, newCategory
+      let data = $(`#${movies.item_id} option:selected`)
+      const newCategory = data[0].value;
+      const currentCategory = 'movies';
+      const item_id = movies.item_id;
+      $.post('api/users/change/', { itemID: item_id, tableName : currentCategory, newTable: newCategory},
+        function() {
+
+        });
+      $('.card').remove();
+      loadItems();
+    });
+
+
+
+
+
 
   return $divCard;
 };
@@ -189,13 +215,14 @@ const renderItems = function (obj) {
 };
 
 const loadItems = function () {
-  $.ajax({
+  return $.ajax({
     method: 'GET',
     url: '/api/users'
   }).done(data => {
     if (!data) {
       alert('Error: not be able to fetch items');
     } else {
+      $('.card').remove();
       renderItems(data);
     }
   });
