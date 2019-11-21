@@ -81,7 +81,7 @@ module.exports = db => {
     getUserByEmail(user.email, db).then(data => {
       //check if user's email is not in db
       if (!data.rows[0]) {
-        res.send('The email you entered does not belong to any account!');
+        res.json({ error: 'error' });
       } else {
         //check if user's password is correct
         if (bcrypt.compareSync(user.password, data.rows[0].password)) {
@@ -102,7 +102,7 @@ module.exports = db => {
     //item id which is passed in url
     const itemId = req.params.id;
     if (!req.session.userId) {
-      res.render('login');
+      res.render('login', { error: '' });
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header

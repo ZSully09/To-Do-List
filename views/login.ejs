@@ -13,9 +13,13 @@
     <link rel="stylesheet" href="/styles/login.css" type="text/css" />
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <title>Login</title>
   </head>
   <body>
+    <% if(error){ %>
+    <h1><%= error %></h1>
+    <% } %>
     <div class="container" style="margin-top: 50px">
       <div class="col-md-6 mx-auto text-center">
         <div class="header-title">
@@ -72,4 +76,5 @@
       </div>
     </div>
   </body>
+  <script type="text/javascript" src="/scripts/show-errors.js"></script>
 </html>
