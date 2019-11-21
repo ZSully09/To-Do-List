@@ -1,5 +1,3 @@
-// HEADER
-
 header.header {
   text-align: center;
   height: 100px;
@@ -10,27 +8,31 @@ header.header {
 }
 
 header a {
-  font-size: 36px;
+  font-size: 50px;
+  font-family: 'Anton', sans-serif;
   float: left;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 50px;
+  margin-top: 15px;
   width: auto;
   color: #ffffff;
   text-decoration: none;
+  vertical-align: middle;
 }
 
 header form {
   font-size: 18px;
+  font-family: 'Anton', sans-serif;
   float: right;
   width: auto;
-  margin-right: 20px;
-  margin-top: 20px;
+  margin-right: 50px;
+  margin-top: 27px;
+  vertical-align: middle;
 }
 
 header form button {
   background-color: #1b2126;
   color: #ffffff;
-  border: solid 1px;
+  border: solid 2px;
   border-color: #ffffff;
   border-radius: 10px;
   font-size: 24px;
@@ -105,23 +107,41 @@ body h1 {
   font-family: Scada, sans-serif;
   font-size: 20px;
   color: #1b2126;
+  text-align: center;
 }
 
-h1 a {
+// body main div.container div.container-header h1 {
+//   position: fixed;
+//   margin-bottom: 10px;
+//   height: 30px;
+// }
+
+body a {
   text-decoration: none;
-  color: #1b2126;
 }
+
+body a:hover {
+  font-weight: bold;
+}
+
 div.container .fa-ellipsis-v {
   float: right;
   margin-right: 5px;
   margin-top: -10px;
   color: #1b2126;
 }
-div.container .fa-plus {
+// div.container .fa-plus {
+//   float: right;
+//   margin-right: 30px;
+//   margin-top: -10px;
+//   color: #1b2126;
+// }
+p.commands .fa-ellipsis-v {
   float: right;
-  margin-right: 30px;
-  margin-top: -10px;
+  padding-left: 30px;
+  margin-top: 1px;
   color: #1b2126;
+  position: relative;
 }
 .thumbnail {
   position: absolute;
@@ -136,7 +156,7 @@ div.container .fa-plus {
 // Changed to relative to fix responsiveness
 img {
   position: relative;
-  margin-top: 2px;
+  margin-top: 15px;
   margin-left: 2px;
   width: 50px;
   height: 50px;
@@ -156,7 +176,7 @@ form.search {
   left: 50%;
   transform: translate(-50%, -50%);
   // transition: all 1s;
-  width: 150px;
+  width: 300px;
   height: 50px;
   background: #1b2126;
   box-sizing: border-box;
@@ -195,7 +215,7 @@ input {
 }
 
 form.search:hover {
-  width: 200px;
+  width: 350px;
   cursor: pointer;
 }
 
@@ -212,4 +232,15 @@ a {
 }
 a:hover {
   color: black;
+}
+
+// LOGIN PAGE
+
+div.form-group div#oval-shadow {
+  height: 16px;
+  background: #dfdfdf;
+  border-radius: 100%;
+  margin-top: 24px;
+  width: 200px;
+  margin-left: 75px;
 }

@@ -30,6 +30,10 @@ const createItem = function (category,item) {
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
     .append($pName);
 
+  const $commands = $('<p>')
+    .addClass('commands')
+    .html('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>');
+
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
@@ -40,7 +44,7 @@ const createItem = function (category,item) {
 
 };
 
-const renderItems = function (obj) {
+const renderItems = function(obj) {
   for (const item in obj) {
     obj[item].forEach(element => {
       $(`.${item}`).append(createItem(element,item));
@@ -48,7 +52,7 @@ const renderItems = function (obj) {
   }
 };
 
-const loadItems = function () {
+const loadItems = function() {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -61,7 +65,7 @@ const loadItems = function () {
     }
   });
 };
-$(document).ready(function () {
+$(document).ready(function() {
   loadItems();
 
 });
