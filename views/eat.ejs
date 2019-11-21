@@ -24,27 +24,22 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
 
     <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
     <% include partials/_header.ejs %>
-    <main>
-      <h1 id="title"><%= item.name %></h1>
-      <img
-        class="thumbn-image"
-        src="<%= item.image %>"
-        alt="<%= item.name %>"
-      />
-      <h4 class="rating">Rating: <%= item.rating %></h4>
-      <h4 class="cost">Price range: <%= item.price_range %>$</h4>
-      <h4 class="operation-time">
-        Open .closes: <%= item.hours_of_operation %>
-      </h4>
-      <p class="address">
-        Address: <%= item.street %>, <%= item.city %>, <%= item.post_code %>
-      </p>
-    </main>
+    <h1 id="title"><%= item.name %></h1>
+    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.name %>" />
+    <h4 class="rating">Rating: <%= item.rating %></h4>
+    <h4 class="cost">Price range: <%= item.price_range %>$</h4>
+    <h4 class="operation-time">
+      Open .closes: <%= item.hours_of_operation %>
+    </h4>
+    <p class="address">
+      Address: <%= item.street %>, <%= item.city %>, <%= item.post_code %>
+    </p>
   </body>
 </html>

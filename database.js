@@ -137,13 +137,16 @@ const getProductItemById = function (item_id, db) {
   );
 };
 
-const isDuplicateName = function (category, name, db) {
+const isDuplicateName = function (category, name, user_id, db) {
   return db
     .query(
       `
-    SELECT * FROM ${category} WHERE name=$1
+    SELECT * FROM ${category}
+    JOIN items ON ${category}.item_id = items.id
+    JOIN users ON items.user_id = users.id
+    WHERE name=$1 AND users.id =$2
     `,
-      [`${name}`]
+      [`${name}`, `${user_id}`]
     )
     .then(res => {
       if (res.rowCount > 0) {
@@ -232,6 +235,14 @@ const addProduct = function (values, db) {
     VALUES($1, $2, $3, $4, $5, $6)
   `,
     values
+  );
+};
+
+const changeCategory = function (item, newCategory) {
+  return db.query(
+    `
+    `,
+    [newCategory]
   );
 };
 
