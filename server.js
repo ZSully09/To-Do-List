@@ -67,7 +67,8 @@ app.get('/', (req, res) => {
       // console.log(user);
       res.render('index', {
         userId: req.session.userId,
-        user: user.rows[0]
+        user: user.rows[0],
+        error: ''
       });
     });
   }

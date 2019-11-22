@@ -63,13 +63,11 @@ module.exports = db => {
     }
   });
   router.post('/change/:itemID', (req, res) => {
-    console.log(req.params)
-    console.log(req.body)
-      changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
-      .then(() => {
-      res.redirect('/')
-      })
-      res.redirect('/')
+    changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
+      .then(data => {
+        res.json(data);
+      });
+
   });
   router.post('/register', (req, res) => {
     const user = req.body;

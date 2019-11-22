@@ -269,10 +269,12 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
               [item_id, user_id]
             );
           });
+      } else {
+        return "this an error";
       }
     })
     .catch(error => {
-      return error;
+      return new Error(error);
     });
 };
 const deleteItem = function (itemId, category, db) {
