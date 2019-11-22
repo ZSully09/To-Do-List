@@ -17,9 +17,13 @@
     <title>Login</title>
   </head>
   <body>
-    <% if(error){ %>
+    <% if(emailError){ %>
     <div class="error">
-      <h5><%= error %></h5>
+      <p><%= emailError %></p>
+    </div>
+    <% } %> <% if(passwordError){ %>
+    <div class="error">
+      <p><%= passwordError %></p>
     </div>
     <% } %>
     <div class="container" style="margin-top: 50px">

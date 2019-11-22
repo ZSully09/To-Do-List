@@ -1,5 +1,7 @@
 // REGISTER
-
+body {
+  margin-top: 40px;
+}
 div.form-group div#oval-shadows {
   height: 16px;
   background: #dfdfdf;
@@ -7,4 +9,10 @@ div.form-group div#oval-shadows {
   margin-top: 24px;
   width: 120px;
   margin-left: 115px;
+}
+.error {
+  width: 30%;
+  margin: 0 auto;
+  border: 2px solid red;
+  text-align: center;
 }
