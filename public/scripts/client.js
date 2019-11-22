@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
 
-
-
 const createItem = function (category, item) {
   const $img = $('<img>').attr('src', category.image);
   const $imgLink = $('<a>')
@@ -35,8 +33,7 @@ const createItem = function (category, item) {
     .val('products')
     .text('Products');
 
-  const $select = $('<select>')
-    .addClass('drop-down');
+  const $select = $('<select>');
 
   if (item === 'movies') {
     $select.attr('id', category.item_id)
@@ -85,9 +82,8 @@ const createItem = function (category, item) {
 
   const $commands = $('<p>')
     .addClass('commands')
-    .append($(`<button class="drop-down">
-    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>'`));
-  // .html('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>')
+    .html('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>');
+
 
 
 
@@ -95,12 +91,15 @@ const createItem = function (category, item) {
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
-    // .append($commands)
+    .append($commands)
     .append($nameLink)
     .append($button)
     .append($select)
+
     .change(function () {
+      // currentCategory, item_id, user_id, newCategory
       let data = $(`#${category.item_id} option:selected`);
+      console.log(data[0].value, item)
       if (data[0].value === item) {
         alert('Already in selected category');
       } else {
@@ -142,12 +141,4 @@ const loadItems = function () {
 };
 $(document).ready(function () {
   loadItems();
-  $('.search').submit(function (event) {
-    event.preventDefault();
-    let data = $(this).serialize();
-    $.ajax({ type: "POST", url: '/api/widgets/add', data: data, })
-      .then(function () {
-        loadItems();
-      });
-  });
 });
