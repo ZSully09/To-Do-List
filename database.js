@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable camelcase */
 //database functions
 const bcrypt = require('bcrypt');
@@ -247,7 +248,10 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
     `
   )
     .then(res => {
-      console.log(`SETTTING ${changeCategory} TO FALSE`)
+      if (!res.rows[0]) {
+        return false;
+      }
+
       if (res.rows[0].name.length > 0) {
         return db.query(
           `
@@ -259,7 +263,6 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
           [item_id, user_id]
         )
           .then(() => {
-            console.log(`SETTING ${newCategory} TO TRUE`)
             return db.query(
               `
 
@@ -276,7 +279,7 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
       }
     })
     .catch(error => {
-      return error.message;
+      return error;
     });
 };
 const deleteItem = function (itemId, category, db) {

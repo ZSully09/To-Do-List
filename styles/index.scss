@@ -260,6 +260,12 @@ a {
 a:hover {
   color: black;
 }
+.error {
+  width: 30%;
+  margin: 0 auto;
+  border: 2px solid red;
+  text-align: center;
+}
 
 // LOGIN PAGE
 div.form-group div#oval-shadow {

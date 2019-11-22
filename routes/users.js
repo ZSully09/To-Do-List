@@ -62,14 +62,14 @@ module.exports = db => {
       res.render('register', { error: "" });
     }
   });
-  router.post('/change/:itemID', (req, res) => {
-    console.log(req.params)
-    console.log(req.body)
-      changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
+  router.post('/change/:itemID', (req, res, ) => {
+    changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
       .then(() => {
-      res.redirect('/')
-      })
-      res.redirect('/')
+        res.redirect('/');
+      }).catch(() => {
+        throw new Error("broken");
+      });
+
   });
   router.post('/register', (req, res) => {
     const user = req.body;
