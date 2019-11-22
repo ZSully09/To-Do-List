@@ -163,6 +163,9 @@ $(document).ready(function() {
     let data = $(this).serialize();
     $.ajax({ type: 'POST', url: '/api/widgets/add', data: data }).then(
       function() {
+        $('#clear').each(function() {
+          this.reset();
+        });
         loadItems();
       }
     );
