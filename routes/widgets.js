@@ -62,9 +62,7 @@ module.exports = (db) => {
       });
     const bookPromise = help.apiRequest('https://www.googleapis.com/books/v1/volumes?q=' + name)
       .then(response => {
-        console.log(response.items[0])
         let book = response.items[0]
-        console.log(help.isValidResponse(book.volumeInfo.author))
         // console.log(response)
         // takes title from API call and saves it to temp object to compare results
         if (response.totalItems > 0) {
@@ -217,9 +215,13 @@ module.exports = (db) => {
                     addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
                   }
                 });
-              //  console.log(req.session.userId)
+              console.log("not Dup, deleting error message")
+              delete res.session.error;
               res.redirect('/');
+
             } else {
+              console.log('DUPLICATE YEPPERS')
+              req.session.error = 'Item already added to your lists!';
               res.redirect('/');
             }
           });

@@ -138,7 +138,7 @@ const getProductItemById = function (item_id, db) {
 };
 
 const isDuplicateName = function (category, name, user_id, db) {
-  console.log('DUPLICATE')
+  console.log('DUPLICATE??')
   return db
     .query(
       `
@@ -247,7 +247,7 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
     `
   )
     .then(res => {
-      if (res.rows[0].name.length > 0) {
+      if (res.rows.length > 0) {
         return db.query(
           `
           UPDATE ${currentCategory}
@@ -269,9 +269,12 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
               [item_id, user_id]
             );
           });
+      } else {
+        return 'Target Category Already Exists';
       }
     })
     .catch(error => {
+      console.log(error);
       return error;
     });
 };

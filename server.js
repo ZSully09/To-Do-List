@@ -62,11 +62,13 @@ app.get('/', (req, res) => {
   if (!req.session.userId) {
     res.render('login', { emailError: '', passwordError: '' });
   } else {
+    console.log(req.session.error)
     getUserById(req.session.userId, db).then(user => {
       // Displays email in header
       // console.log(user);
       res.render('index', {
         userId: req.session.userId,
+        searchError: req.session.error,
         user: user.rows[0]
       });
     });

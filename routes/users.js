@@ -66,10 +66,11 @@ module.exports = db => {
     console.log(req.params)
     console.log(req.body)
       changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
-      .then(() => {
+      .then((error) => {
+        console.log(error)
       res.redirect('/')
       })
-      res.redirect('/')
+      // res.redirect('/')
   });
   router.post('/register', (req, res) => {
     const user = req.body;
