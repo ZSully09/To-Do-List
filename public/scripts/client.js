@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const createItem = function(category, item) {
+const createItem = function (category, item) {
   const $img = $('<img>').attr('src', category.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
@@ -16,7 +16,7 @@ const createItem = function(category, item) {
 
   const $defaultOption = $('<option>')
     .val('default')
-    .text('Select Option');
+    .text('');
   const $moviesOption = $('<option>')
     .val('movies')
     .text('Movies');
@@ -77,7 +77,7 @@ const createItem = function(category, item) {
     .html('<i class="fas fa-minus-square"></i>');
   // .text('Delete');
   $(
-    $button.on('click', function() {
+    $button.on('click', function () {
       $.ajax({
         url: `/api/users/delete/${item}/${category.item_id}`,
         datatype: 'JSON',
@@ -112,7 +112,7 @@ const createItem = function(category, item) {
     .append($commands)
     .append($select)
 
-    .change(function() {
+    .change(function () {
       // currentCategory, item_id, user_id, newCategory
       let data = $(`#${category.item_id} option:selected`);
       console.log(data[0].value, item);
@@ -134,7 +134,7 @@ const createItem = function(category, item) {
   return $divCard;
 };
 
-const renderItems = function(obj) {
+const renderItems = function (obj) {
   for (const item in obj) {
     obj[item].forEach(element => {
       $(`.${item}`).append(createItem(element, item));
@@ -142,7 +142,7 @@ const renderItems = function(obj) {
   }
 };
 
-const loadItems = function() {
+const loadItems = function () {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -155,13 +155,19 @@ const loadItems = function() {
     }
   });
 };
-$(document).ready(function() {
+$(document).ready(function () {
+
   loadItems();
   $('.search').submit(function (event) {
     event.preventDefault();
+
+
     let data = $(this).serialize();
     $.ajax({ type: "POST", url: '/api/widgets/add', data: data, })
       .then(function () {
+        $('#clear').each(function () {
+          this.reset();
+        });
         loadItems();
       });
   });
