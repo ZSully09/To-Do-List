@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { changeCategory, addUser, getUserByEmail, getUserById, getItemsToWatchById,
+const { addUser, getUserByEmail, getUserById, getItemsToWatchById,
   getItemsToBuyById, getItemsToReadById, getPlacesToEatById, getMovieItemById,
   getRestaurantItemById, getBookItemById, getProductItemById, deleteItem } = require('../database');
 const bcrypt = require('bcrypt');
@@ -59,7 +59,7 @@ module.exports = db => {
     if (req.session.userId) {
       res.redirect('/');
     } else {
-      res.render('register');
+      res.render('register', { error: "" });
     }
   });
   router.post('/register', (req, res) => {
@@ -72,33 +72,29 @@ module.exports = db => {
           res.redirect('/');
         });
       } else {
-        res.send('Already registerd!');
+        res.render('register', { error: 'Already registerd!' });
       }
     });
-  });
-
-  router.post('/change/:itemID', (req, res) => {
-    console.log(req.params)
-    console.log(req.body)
-      changeCategory(req.body.tableName, req.params.itemID, req.body.newTable, req.session.userId, db)
-      .then(() => {
-      res.redirect('/')
-      })
-      res.redirect('/')
   });
   router.post('/login', (req, res) => {
     const user = req.body;
     getUserByEmail(user.email, db).then(data => {
       //check if user's email is not in db
       if (!data.rows[0]) {
-        res.send('The email you entered does not belong to any account!');
+        res.render('login', {
+          emailError: 'The Email does not belong to any user!',
+          passwordError: ''
+        });
       } else {
         //check if user's password is correct
         if (bcrypt.compareSync(user.password, data.rows[0].password)) {
           req.session.userId = data.rows[0].id;
           res.redirect('/');
         } else {
-          res.send('Password is not correct!');
+          res.render('login', {
+            emailError: '',
+            passwordError: 'Password is not correct!'
+          });
         }
       }
     });
@@ -112,7 +108,7 @@ module.exports = db => {
     //item id which is passed in url
     const itemId = req.params.id;
     if (!req.session.userId) {
-      res.render('login');
+      res.render('login', { emailError: '', passwordError: '' });
     } else {
       getUserById(req.session.userId, db).then(user => {
         // Displays email in header
@@ -127,10 +123,10 @@ module.exports = db => {
                     item: data.rows[0]
                   });
                 } else {
-                  res.send('The Item does not belong to the user!');
+                  res.redirect('/');
                 }
               } else {
-                res.send('The Item does not belong to the user!');
+                res.redirect('/');
               }
             });
         } else if (req.params.category === 'books') {
@@ -144,10 +140,10 @@ module.exports = db => {
                     item: data.rows[0]
                   });
                 } else {
-                  res.send('The Item does not belong to the user!');
+                  res.redirect('/');
                 }
               } else {
-                res.send('The Item does not belong to the user!');
+                res.redirect('/');
               }
             });
         } else if (req.params.category === 'restaurants') {
@@ -161,10 +157,10 @@ module.exports = db => {
                     item: data.rows[0]
                   });
                 } else {
-                  res.send('The Item does not belong to the user!');
+                  res.redirect('/');
                 }
               } else {
-                res.send('The Item does not belong to the user!');
+                res.redirect('/');
               }
             });
         } else if (req.params.category === 'products') {
@@ -178,10 +174,10 @@ module.exports = db => {
                     item: data.rows[0]
                   });
                 } else {
-                  res.send('The Item does not belong to the user!');
+                  res.redirect('/');
                 }
               } else {
-                res.send('The Item does not belong to the user!');
+                res.redirect('/');
               }
             });
         }

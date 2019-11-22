@@ -60,7 +60,7 @@ app.use('/api/widgets', widgetsRoutes(db));
 app.get('/', (req, res) => {
   //check if user has been registered or not
   if (!req.session.userId) {
-    res.render('login');
+    res.render('login', { emailError: '', passwordError: '' });
   } else {
     getUserById(req.session.userId, db).then(user => {
       // Displays email in header

@@ -71,7 +71,7 @@ module.exports = (db) => {
 
           bookData.name = help.isValidResponse(book.volumeInfo.title);
 
-          if(book.volumeInfo.authors) {
+          if (book.volumeInfo.authors) {
             bookData.author = book.volumeInfo.authors[0]
           } else {
             bookData.author = 'Not Availble'
@@ -109,42 +109,42 @@ module.exports = (db) => {
         // console.log(response)
         const data = JSON.parse(response.body);
         if (data.total != 0) {
-        yelpData.name = data.businesses[0].name;
-        yelpData.rating = data.businesses[0].rating;
-        yelpData.price = data.businesses[0].price;
-        yelpData.street = data.businesses[0].location.address1;
-        yelpData.city = data.businesses[0].location.city
-        yelpData.province = data.businesses[0].location.state
-        yelpData.post_code = data.businesses[0].location.zip_code;
-        yelpData.image = data.businesses[0].image_url
+          yelpData.name = data.businesses[0].name;
+          yelpData.rating = data.businesses[0].rating;
+          yelpData.price = data.businesses[0].price;
+          yelpData.street = data.businesses[0].location.address1;
+          yelpData.city = data.businesses[0].location.city
+          yelpData.province = data.businesses[0].location.state
+          yelpData.post_code = data.businesses[0].location.zip_code;
+          yelpData.image = data.businesses[0].image_url
 
         }
         return yelpData;
-        })
-        .catch(error => {
-          res.send(error)
+      })
+      .catch(error => {
+        res.send(error)
       });
-/* Test Data for when not wanting to make API calls too much below here ================================
-    const yelpPromise = {
-      name: 'Lugaro',
-      rating: 3.5,
-      price: '$$$$',
-      street: '996 Park Royal S',
-      city: 'West Vancouver',
-      province: 'BC',
-      post_code: 'V7T 1A1',
-      image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
-    };
-    const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
-      year: '2001',
-      actors: 'Alan Howard, Noel Appleby, Sean Astin, Sala Baker',
-      duration: '178 min',
-      director: 'Peter Jackson',
-      description: 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.',
-      poster: 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg',
-      rating: '8.8',
-      boxOffice: '$314,000,000' };
-      */
+    /* Test Data for when not wanting to make API calls too much below here ================================
+        const yelpPromise = {
+          name: 'Lugaro',
+          rating: 3.5,
+          price: '$$$$',
+          street: '996 Park Royal S',
+          city: 'West Vancouver',
+          province: 'BC',
+          post_code: 'V7T 1A1',
+          image: 'http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg',
+        };
+        const moviePromise = { name: 'The Lord of the Rings: The Fellowship of the Ring',
+          year: '2001',
+          actors: 'Alan Howard, Noel Appleby, Sean Astin, Sala Baker',
+          duration: '178 min',
+          director: 'Peter Jackson',
+          description: 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.',
+          poster: 'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_SX300.jpg',
+          rating: '8.8',
+          boxOffice: '$314,000,000' };
+          */
     const productPromise = {
       name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
       image: 'https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL.jpg',
@@ -163,14 +163,14 @@ module.exports = (db) => {
     */
 
     Promise.all([yelpPromise, moviePromise, productPromise, bookPromise])
-    // promise all takes the promises created by the api requests and waits for them all to resolve
+      // promise all takes the promises created by the api requests and waits for them all to resolve
       .then(values => {
         // console.log(values)
         // compares the results and returns the category that best fits the user input
         let dupArray = help.compareResults(values, name);
         let category = dupArray[0]
         isDuplicateName(dupArray[0], dupArray[1], req.session.userId, db)
-        // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...
+          // checks to see if the exact item already exists in our table. currently only checks one table, this should suffice since we are really targeting the same search terms here...
           .then(bool => {
             // console.log(bool)
             if (bool !== true && (values[0] !== {} || values[1] !== {} || values[2] !== {} || values[3] !== {})) {
@@ -185,38 +185,38 @@ module.exports = (db) => {
           `,
                 [req.session.userId]
               )
-            .then(res => {
-              if (category === 'movies' && values[1] !== {}) {
-                console.log('movies')
+                .then(res => {
+                  if (category === 'movies' && values[1] !== {}) {
+                    console.log('movies')
                     // if the category is movies then insert the item and associated data in movies table
                     // note the empty object is only there because by default the category is set to movies
                     // if it is {}, then we want it to not insert anything into the table
-                addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
-                addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
-                addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
-              } else if (category === 'books' && values[3] !== {}) {
-                console.log('books, correct')
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
-                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, true], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
-                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
+                    addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, true], db);
+                    addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                    addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
+                    addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
+                  } else if (category === 'books' && values[3] !== {}) {
+                    console.log('books, correct')
+                    addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                    addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, true], db)
+                    addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
+                    addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
 
-              } else if (category === 'products' && values[2] !== {}) {
-                console.log('products')
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
-                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
-                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, true], db)
-              } else if (category === 'restaurants' && values[0] !== {}) {
-                console.log('restaurants')
-                // console.log(values[3])
-                  addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
-                  addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
-                  addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, true], db)
-                  addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
-              }
-            });
+                  } else if (category === 'products' && values[2] !== {}) {
+                    console.log('products')
+                    addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                    addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                    addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, false], db)
+                    addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, true], db)
+                  } else if (category === 'restaurants' && values[0] !== {}) {
+                    console.log('restaurants')
+                    // console.log(values[3])
+                    addMovie([res.rows[0].id, values[1].name, values[1].director, values[1].rating, values[1].poster, values[1].actors, values[1].description, values[1].duration, false], db);
+                    addBook([res.rows[0].id, values[3].name, values[3].author, values[3].pages, values[3].image, values[3].publication_year, values[3].rating, values[3].description, false], db)
+                    addRestaurant([res.rows[0].id, values[0].name, values[0].street, values[0].city, values[0].province, values[0].post_code, values[0].rating, values[0].image, values[0].price, true], db)
+                    addProduct([res.rows[0].id, values[2].name, values[2].link, values[2].image, values[2].description, false], db)
+                  }
+                });
               //  console.log(req.session.userId)
               res.redirect('/');
             } else {
