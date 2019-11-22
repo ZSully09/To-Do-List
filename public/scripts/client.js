@@ -122,14 +122,13 @@ const createItem = function (category, item) {
         $.ajax({
           url: `api/users/change/${category.item_id}`,
           data: { tableName: currentCategory, newTable: newCategory },
-          contentType: 'application/json; charset=utf-8',
-          dataType: 'text json',
-          cache: false,
+          datatype: 'JSON',
           method: 'POST'
-        }).done(() => {
+        }).done((data) => {
+          if (!data.command) {
+            alert('Item can not be forund in selected category!');
+          }
           loadItems();
-        }).fail(() => {
-          alert('Item is can not be found in selected category');
         });
       }
     });

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable camelcase */
 //database functions
 const bcrypt = require('bcrypt');
@@ -248,10 +247,6 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
     `
   )
     .then(res => {
-      if (!res.rows[0]) {
-        return false;
-      }
-
       if (res.rows[0].name.length > 0) {
         return db.query(
           `
@@ -279,7 +274,7 @@ const changeCategory = function (currentCategory, item_id, newCategory, user_id,
       }
     })
     .catch(error => {
-      return error;
+      return new Error(error);
     });
 };
 const deleteItem = function (itemId, category, db) {
