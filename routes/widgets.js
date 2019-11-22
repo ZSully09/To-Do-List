@@ -90,20 +90,20 @@ module.exports = (db) => {
         res.send(error);
       });
 
-    const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + CUSTOM + name)
-      .then(response => {
-        console.log(response)
-        // product results are not giving very good responses...
+    // const productPromise = help.apiRequest('https://www.googleapis.com/customsearch/v1?key=' + GAPI + CUSTOM + name)
+    //   .then(response => {
+    //     console.log(response)
+    //     // product results are not giving very good responses...
 
-        productData.name = response.items[0]['title'];
-        productData.image = response.items[0]['pagemap']['cse_thumbnail'][0]['src'];
-        productData.link = response.items[0].link;
-        productData.description = response.items[0]['snippet']
-        return productData;
-      })
-      .catch(error => {
-        res.send(error);
-      });
+    //     productData.name = response.items[0]['title'];
+    //     productData.image = response.items[0]['pagemap']['cse_thumbnail'][0]['src'];
+    //     productData.link = response.items[0].link;
+    //     productData.description = response.items[0]['snippet']
+    //     return productData;
+    //   })
+    //   .catch(error => {
+    //     res.send(error);
+    //   });
     const yelpPromise = help.yelpRequest(name, 'vancouver, bc')
       .then(response => {
         // console.log(response)
@@ -145,12 +145,12 @@ module.exports = (db) => {
       rating: '8.8',
       boxOffice: '$314,000,000' };
       */
-    // const productPromise = {
-    //   name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
-    //   image: 'https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL.jpg',
-    //   link: 'http://www.amazon.ca/dp/0007581149/ref=tsm_1_fb_lk',
-    //   description: `Four-volume boxed-set edition of The Lord of the Rings in hardback, featuring \nTolkien's original unused dust-jacket designs, together with fourth hardback ...`
-    // };
+    const productPromise = {
+      name: 'The Lord of the Rings Boxed Set: J. R. R. Tolkien: 9780007581146: Books - Amazon.ca',
+      image: 'https://images-na.ssl-images-amazon.com/images/I/41qO5Lg0KXL.jpg',
+      link: 'http://www.amazon.ca/dp/0007581149/ref=tsm_1_fb_lk',
+      description: `Four-volume boxed-set edition of The Lord of the Rings in hardback, featuring \nTolkien's original unused dust-jacket designs, together with fourth hardback ...`
+    };
     /*
     const bookPromise = { name: 'The Fellowship of the Ring',
       author: 'John Ronald Reuel Tolkien',
