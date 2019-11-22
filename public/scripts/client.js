@@ -102,8 +102,6 @@ const createItem = function(category, item) {
     .append($button)
     .append($select);
 
-  // <i class="fas fa-minus-square"></i>
-
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
