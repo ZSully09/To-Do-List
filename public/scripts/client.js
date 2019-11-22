@@ -16,7 +16,7 @@ const createItem = function(category, item) {
 
   const $defaultOption = $('<option>')
     .val('default')
-    .text('Select Option');
+    .text('');
   const $moviesOption = $('<option>')
     .val('movies')
     .text('Movies');
@@ -75,7 +75,6 @@ const createItem = function(category, item) {
   const $button = $('<button>')
     .addClass('delete')
     .html('<i class="fas fa-minus-square"></i>');
-  // .text('Delete');
   $(
     $button.on('click', function() {
       $.ajax({
@@ -100,8 +99,8 @@ const createItem = function(category, item) {
 
   const $commands = $('<div>')
     .addClass('card-commands')
-    .append($('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>'))
-    .append($button);
+    .append($button)
+    .append($select);
 
   // <i class="fas fa-minus-square"></i>
 
@@ -110,7 +109,6 @@ const createItem = function(category, item) {
     .append($divImg)
     .append($nameLink)
     .append($commands)
-    .append($select)
 
     .change(function() {
       // currentCategory, item_id, user_id, newCategory
