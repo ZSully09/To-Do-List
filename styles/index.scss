@@ -243,15 +243,16 @@ input {
 }
 
 form.search:hover {
-  width: 350px;
   cursor: pointer;
 }
 
-form.search:hover input {
+form.search:hover input,
+form.search input:focus {
   display: block;
 }
 
-form.search:hover .fa {
+form.search:hover .fa,
+form.search .fa:focus {
   background: #1b2126;
   color: white;
 }
