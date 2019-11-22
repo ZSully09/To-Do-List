@@ -9,7 +9,7 @@ header.header {
 
 header a {
   font-size: 50px;
-  font-family: "Anton", sans-serif;
+  font-family: 'Anton', sans-serif;
   float: left;
   margin-left: 50px;
   margin-top: 15px;
@@ -21,7 +21,7 @@ header a {
 
 header form {
   font-size: 18px;
-  font-family: "Anton", sans-serif;
+  font-family: 'Anton', sans-serif;
   float: right;
   width: auto;
   margin-right: 50px;
@@ -36,6 +36,7 @@ header form button {
   border-color: #ffffff;
   border-radius: 10px;
   font-size: 24px;
+  cursor: pointer;
 }
 
 // BODY
