@@ -144,6 +144,19 @@ div.container {
   position: inherit;
   background: white;
   border: none;
+  cursor: pointer;
+}
+
+div.card-commands {
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+div.card div.card-commands select {
+  width: 22px;
+  background: transparent;
+  border: transparent;
+  outline-width: 0;
 }
 
 // .card-commands .fa-ellipsis-v {
