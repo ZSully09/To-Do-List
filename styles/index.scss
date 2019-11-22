@@ -61,6 +61,24 @@ body {
   background-color: #ffffff;
 }
 
+body h1 {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-family: Scada, sans-serif;
+  font-size: 20px;
+  color: #1b2126;
+  text-align: center;
+}
+
+body a {
+  text-decoration: none;
+}
+
+body a:hover {
+  font-weight: bold;
+}
+
 main {
   display: flex;
   flex-direction: row;
@@ -93,6 +111,8 @@ div.container {
   font-family: Scada, sans-serif;
   word-wrap: break-word;
   border-radius: 8px;
+  overflow: scroll;
+  margin-bottom: 10px;
 }
 
 .card:hover {
@@ -100,44 +120,51 @@ div.container {
   opacity: 1;
 }
 
-body h1 {
-  position: relative;
-  margin-top: 10px;
-  margin-left: 5px;
-  font-family: Scada, sans-serif;
-  font-size: 20px;
-  color: #1b2126;
-  text-align: center;
+.card > * {
+  display: inline-block;
 }
 
-// body main div.container div.container-header h1 {
-//   position: fixed;
-//   margin-bottom: 10px;
-//   height: 30px;
+// .card-imgdiv {
 // }
 
-body a {
-  text-decoration: none;
+.card-main {
+  width: calc(100% - 52px - 43px);
+  vertical-align: top;
 }
 
-body a:hover {
-  font-weight: bold;
-}
+// .card-commands {
+// }
 
-div.container .fa-ellipsis-v {
-  float: right;
-  margin-right: 5px;
-  margin-top: -10px;
+.card > .card-commands > * {
+  // float: right;
+  // margin-right: 5px;
+  // margin-top: -10px;
+  display: block;
   color: #1b2126;
+  position: inherit;
+  background: white;
+  border: none;
 }
 
-p.commands .fa-ellipsis-v {
-  float: right;
-  padding-left: 30px;
-  margin-top: 1px;
-  color: #1b2126;
-  position: relative;
-}
+// .card-commands .fa-ellipsis-v {
+//   float: right;
+//   margin-right: -12px;
+//   margin-top: 1px;
+//   color: #1b2126;
+//   position: relative;
+// }
+
+// button.delete {
+//   float: right;
+//   margin-top: -27px;
+//   margin-right: -12px;
+//   padding: 0;
+//   margin-left: 1px;
+//   color: #1b2126;
+//   position: relative;
+//   background: white;
+//   border: none;
+// }
 
 // Changed to relative to fix responsiveness
 img {
@@ -151,7 +178,7 @@ img {
 }
 
 .name {
-  margin-left: 60px;
+  margin: 6px; // TODO: think about
 }
 
 // Search Bar

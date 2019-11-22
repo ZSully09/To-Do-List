@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 
-const createItem = function (category, item) {
+const createItem = function(category, item) {
   const $img = $('<img>').attr('src', category.image);
   const $imgLink = $('<a>')
     .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
     .append($img);
 
   const $divImg = $('<div>')
-    .addClass('img-div')
+    .addClass('card-imgdiv')
     .append($imgLink);
 
   const $pName = $('<p>')
@@ -36,37 +36,48 @@ const createItem = function (category, item) {
   const $select = $('<select>');
 
   if (item === 'movies') {
-    $select.attr('id', category.item_id)
+    $select
+      .attr('id', category.item_id)
       .append()
-      .append(
-        [$defaultOption, $booksOption, $restaurantsOption, $productsOption]);
-
+      .append([
+        $defaultOption,
+        $booksOption,
+        $restaurantsOption,
+        $productsOption
+      ]);
   }
   if (item === 'books') {
-    $select.attr('id', category.item_id)
-      .append(
-        [$defaultOption, $moviesOption, $restaurantsOption, $productsOption]);
-
+    $select
+      .attr('id', category.item_id)
+      .append([
+        $defaultOption,
+        $moviesOption,
+        $restaurantsOption,
+        $productsOption
+      ]);
   }
   if (item === 'restaurants') {
-    $select.attr('id', category.item_id)
-      .append(
-        [$defaultOption, $moviesOption, $booksOption, $productsOption]);
-
+    $select
+      .attr('id', category.item_id)
+      .append([$defaultOption, $moviesOption, $booksOption, $productsOption]);
   }
   if (item === 'products') {
-    $select.attr('id', category.item_id)
-      .append(
-        [$defaultOption, $moviesOption, $booksOption, $restaurantsOption]);
-
+    $select
+      .attr('id', category.item_id)
+      .append([
+        $defaultOption,
+        $moviesOption,
+        $booksOption,
+        $restaurantsOption
+      ]);
   }
-
 
   const $button = $('<button>')
     .addClass('delete')
-    .text('Delete');
+    .html('<i class="fas fa-minus-square"></i>');
+  // .text('Delete');
   $(
-    $button.on('click', function () {
+    $button.on('click', function() {
       $.ajax({
         url: `/api/users/delete/${item}/${category.item_id}`,
         datatype: 'JSON',
@@ -76,30 +87,35 @@ const createItem = function (category, item) {
     })
   );
 
-  const $nameLink = $('<a>')
-    .attr('href', `http://localhost:8080/api/users/${item}/${category.item_id}`)
-    .append($pName);
+  const $nameLink = $('<div>')
+    .addClass('card-main')
+    .append(
+      $('<a>')
+        .attr(
+          'href',
+          `http://localhost:8080/api/users/${item}/${category.item_id}`
+        )
+        .append($pName)
+    );
 
-  const $commands = $('<p>')
-    .addClass('commands')
-    .html('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>');
+  const $commands = $('<div>')
+    .addClass('card-commands')
+    .append($('<i class="fa fa-ellipsis-v" aria-hidden="true"></i>'))
+    .append($button);
 
-
-
-
+  // <i class="fas fa-minus-square"></i>
 
   const $divCard = $('<div>')
     .addClass('card')
     .append($divImg)
-    .append($commands)
     .append($nameLink)
-    .append($button)
+    .append($commands)
     .append($select)
 
-    .change(function () {
+    .change(function() {
       // currentCategory, item_id, user_id, newCategory
       let data = $(`#${category.item_id} option:selected`);
-      console.log(data[0].value, item)
+      console.log(data[0].value, item);
       if (data[0].value === item) {
         alert('Already in selected category');
       } else {
@@ -118,7 +134,7 @@ const createItem = function (category, item) {
   return $divCard;
 };
 
-const renderItems = function (obj) {
+const renderItems = function(obj) {
   for (const item in obj) {
     obj[item].forEach(element => {
       $(`.${item}`).append(createItem(element, item));
@@ -126,7 +142,7 @@ const renderItems = function (obj) {
   }
 };
 
-const loadItems = function () {
+const loadItems = function() {
   $.ajax({
     method: 'GET',
     url: '/api/users'
@@ -139,7 +155,7 @@ const loadItems = function () {
     }
   });
 };
-$(document).ready(function () {
+$(document).ready(function() {
   loadItems();
   $('.search').submit(function (event) {
     event.preventDefault();
