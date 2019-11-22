@@ -2,7 +2,7 @@
   <a href="/">TDL</a>
   <% if(userId) { %>
   <form method="GET" action="/api/users/logout">
-    Logged In As: <%= user.email %>!
+    <label id="label">Logged In As: <%= user.email %>!</label>
     <button type="submit" class="logout">Logout</button>
   </form>
   <% } %>

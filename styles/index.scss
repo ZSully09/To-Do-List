@@ -9,7 +9,7 @@ header.header {
 
 header a {
   font-size: 50px;
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   float: left;
   margin-left: 50px;
   margin-top: 15px;
@@ -21,7 +21,7 @@ header a {
 
 header form {
   font-size: 18px;
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   float: right;
   width: auto;
   margin-right: 50px;
@@ -57,6 +57,7 @@ button.btn {
 .input-group input {
   flex: 1;
 }
+
 body {
   background-color: #ffffff;
 }
@@ -248,7 +249,6 @@ a:hover {
 }
 
 // LOGIN PAGE
-
 div.form-group div#oval-shadow {
   height: 16px;
   background: #dfdfdf;
@@ -256,4 +256,48 @@ div.form-group div#oval-shadow {
   margin-top: 24px;
   width: 200px;
   margin-left: 75px;
+}
+
+@media screen and (max-width: 1024px) {
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    .container {
+      width: 400px;
+      margin-bottom: 20px;
+      height: calc(100vh - 300px);
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    .container {
+      width: 400px;
+      margin-right: 10px;
+      margin-left: 10px;
+      margin-bottom: 20px;
+      height: calc(100vh - 300px);
+    }
+  }
+}
+@media screen and (max-width: 450px) {
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    .container {
+      width: 300px;
+      margin-right: 10px;
+      margin-left: 10px;
+      margin-bottom: 20px;
+      height: calc(100vh - 300px);
+    }
+  }
+}
+@media screen and (max-width: 500px) {
+  #label {
+    display: none;
+  }
 }
