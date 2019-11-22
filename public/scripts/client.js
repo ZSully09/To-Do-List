@@ -141,4 +141,12 @@ const loadItems = function () {
 };
 $(document).ready(function () {
   loadItems();
+  $('.search').submit(function (event) {
+    event.preventDefault();
+    let data = $(this).serialize();
+    $.ajax({ type: "POST", url: '/api/widgets/add', data: data, })
+      .then(function () {
+        loadItems();
+      });
+  });
 });
