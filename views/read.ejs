@@ -21,26 +21,39 @@
     />
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/item-pages.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
     <script type="text/javascript" src="/scripts/client.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
-
-    <link rel="stylesheet" href="/styles/index.css" type="text/css" />
   </head>
 
   <body>
     <% include partials/_header.ejs %>
-    <h1 id="title"><%= item.title %></h1>
-    <img class="thumbn-image" src="<%= item.image %>" alt="<%= item.title %>" />
-    <h4 class="author">Author: <%= item.author %></h4>
-    <h4 class="actor">Rating: <%= item.rating %></h4>
-    <h4 class="pages">Number of Pages: <%= item.pages %></h4>
-    <h4 class="publication-year">
-      Publication year: <%= item.publication_year%>
-    </h4>
-    <p class="description">Description: <%= item.description %></p>
+    <div class="home">
+        <a href="http://localhost:8080" class="home">< < <</a>
+    </div>
+    <main>
+      <div class="item">
+        <h1 class="name"><%= item.name %></h1>
+        <div class="response">
+        <div class="image">
+        <img
+          class="thumbn-image"
+          src="<%= item.image %>"
+          alt="<%= item.title %>"
+        />
+      </div>
+        <div class="data">
+        <p class="data"><b>Rating:</b> <%= item.rating %>/5 </br></br>
+                        <b>Author:</b> <%= item.author %> </br></br>
+                        <b>Number of Pages:</b> <%= item.pages %></br></br>
+                        <b>Description:</b> <%= item.description %></br></br>
+                        <b>Year of Publication:</b> <%= item.publication_year %></p>
+      </div>
+    </div>
+    </div>
+    </main>
   </body>
 </html>

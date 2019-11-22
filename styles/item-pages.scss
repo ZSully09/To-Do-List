@@ -1,0 +1,141 @@
+header.header {
+  text-align: center;
+  height: 100px;
+  width: 100%;
+  color: #ffffff;
+  background-color: #1b2126;
+}
+
+header a {
+  font-size: 50px;
+  font-family: 'Anton', sans-serif;
+  float: left;
+  margin-left: 50px;
+  margin-top: 15px;
+  width: auto;
+  color: #ffffff;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+header a:hover {
+  color: black;
+  text-decoration-line: none;
+}
+
+header form {
+  font-size: 18px;
+  font-family: 'Anton', sans-serif;
+  float: right;
+  width: auto;
+  margin-right: 50px;
+  margin-top: 27px;
+  vertical-align: middle;
+}
+
+header form button {
+  background-color: #1b2126;
+  color: #ffffff;
+  border: solid 2px;
+  border-color: #ffffff;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+// BODY
+
+body {
+  background-color: #ffffff;
+}
+
+a.home {
+  text-decoration-line: none;
+  display: inline-block;
+  padding: 8px 16px;
+  color: #1b2126;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #1b2126;
+  text-decoration-line: underline;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+div.home {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+div.item {
+  background-color: #e3e3e3;
+  width: 80%;
+  overflow: scroll;
+  border-radius: 8px;
+  padding-bottom: 20px;
+  // align-content: stretch;
+  // height: calc(100vh - 300px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0vh;
+}
+
+div.response {
+  display: inline-flex;
+  flex: 1;
+}
+
+div.image {
+  width: 150px;
+  margin-left: 20px;
+  margin-right: 20px;
+  // height: calc(100vh - 300px);
+}
+
+// .flex-container {
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+// }
+
+// section.content {
+//   flex: 1;
+// }
+
+img {
+  position: relative;
+  margin-right: 20px;
+  width: 150px;
+  height: 150px;
+  float: left;
+  border-radius: 50%;
+}
+
+p.data {
+  overflow-wrap: break-word;
+  margin-right: 20px;
+  margin-top: inherit;
+}
+
+.item:hover {
+  box-shadow: 8px 8px #1b2126;
+}
+
+body h1 {
+  position: relative;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-family: Scada, sans-serif;
+  font-size: 20px;
+  color: #1b2126;
+  text-align: center;
+}
